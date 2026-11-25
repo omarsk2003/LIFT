@@ -1,0 +1,29 @@
+.admin-page { min-width: 0; }
+.admin-page form { display: flex; flex-wrap: wrap; align-items: end; gap: .65rem; }
+.admin-page form label { display: grid; gap: .3rem; }
+.admin-page input, .admin-page select, .admin-page textarea { max-width: 100%; padding: .6rem .7rem; border: 1px solid #6b7777; border-radius: .4rem; background: #111a1b; color: #fff; font: inherit; }
+.admin-page button { cursor: pointer; padding: .55rem .8rem; border: 1px solid #6b7777; border-radius: .4rem; background: #1d2a2b; color: #fff; font: inherit; }
+.admin-page button:disabled { cursor: not-allowed; opacity: .55; }
+.admin-page a { color: inherit; }
+.admin-page [role="alert"] { padding: .8rem; border: 1px solid #d36363; color: #ffb3b3; }
+.admin-page [role="status"] { padding: .8rem; border: 1px solid #5ba87d; }
+.admin-page section { scroll-margin-top: 2rem; }
+.admin-page .message-list { display: grid; gap: .5rem; }
+.admin-page .message-item { display: grid; gap: .2rem; padding: .75rem; text-decoration: none; border: 1px solid #455; border-radius: .5rem; }
+.admin-page .message-item.active { border-color: #94cda8; }
+.admin-page .message-bubble { margin: .7rem 0; padding: .75rem; border: 1px solid #455; border-radius: .5rem; }
+.admin-page .message-bubble p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.admin-page .conversation-content { max-height: 45vh; overflow: auto; }
+.admin-page .promo-row, .admin-page .price-card, .admin-page .active-card, .admin-page .request-card { min-width: 0; }
+.admin-page details { padding: .5rem; }
+.admin-page summary { cursor: pointer; }
+@media (max-width: 800px) { .admin-page .messages-shell { display: block; } }
+
+/* Compact icon rail, with the same expandable panel on every admin page. */
+.admin-shell { max-width:none; grid-template-columns:96px minmax(0,1fr); transition:grid-template-columns .22s ease; }
+.admin-shell.sidebar-expanded { grid-template-columns:302px minmax(0,1fr); }
+.admin-shell .admin-page { grid-column:2; grid-row:2; width:100%; box-sizing:border-box; }
+@media (max-width:760px) {
+    .admin-shell,.admin-shell.sidebar-expanded { display:block; }
+    .admin-shell .admin-page { width:auto; margin-left:88px; }
+}

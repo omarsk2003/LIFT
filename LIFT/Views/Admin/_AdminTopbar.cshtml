@@ -1,0 +1,31 @@
+@using System.Security.Claims
+@using Microsoft.EntityFrameworkCore
+@inject LIFT.Data.LiftDbContext AdminHeaderDb
+@{
+    var adminId = Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var parsedAdminId) ? parsedAdminId : Guid.Empty;
+    var adminPhoto = await AdminHeaderDb.Users.AsNoTracking().Where(x => x.Id == adminId && x.Role == "admin").Select(x => x.PhotoUrl).SingleOrDefaultAsync();
+}
+<header class="admin-topbar stms-inspired-topbar">
+    <div class="topbar-brand">
+        <button class="admin-menu-toggle" type="button" aria-label="Toggle navigation" aria-controls="admin-sidebar" aria-expanded="false">☰</button>
+        <a asp-controller="Admin" asp-action="Index"><img src="~/Shared/Assets/Images/lift-logo.png" alt="LIFT" /></a>
+        <span>ADMIN WORKSPACE</span>
+    </div>
+    <form class="admin-top-search" asp-controller="Admin" asp-action="Index" method="get" role="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 5 5"/></svg>
+        <label class="admin-visually-hidden" for="admin-global-search">Search clients, specialists and subscriptions</label>
+        <input id="admin-global-search" type="search" name="search" placeholder="Search clients, specialists and subscriptions" autocomplete="off" />
+        <button type="submit" aria-label="Search">Search</button>
+    </form>
+    <div class="topbar-account">
+        <div class="admin-header-popover">
+            <button class="admin-icon-button" type="button" data-admin-menu="notifications" aria-expanded="false" aria-controls="admin-notification-menu" aria-label="Notifications" title="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg></button>
+            <div class="admin-popover-panel" id="admin-notification-menu" hidden><strong>Needs attention</strong><a asp-controller="Admin" asp-action="Specialists">Specialist applications</a><a asp-controller="Admin" asp-action="AdminChanges">Change requests</a></div>
+        </div>
+        <div class="admin-header-popover">
+            <button class="admin-profile-button" type="button" data-admin-menu="profile" aria-expanded="false" aria-controls="admin-profile-menu" aria-label="Account menu"><span class="admin-avatar" aria-hidden="true">@if (!string.IsNullOrWhiteSpace(adminPhoto)) { <img src="@adminPhoto" alt="" /> } else { @((User.Identity?.Name ?? "A").Substring(0, 1).ToUpperInvariant()) }</span><span class="admin-profile-name"><strong>@User.Identity?.Name</strong><small>Administrator</small></span><span aria-hidden="true">⌄</span></button>
+            <div class="admin-popover-panel" id="admin-profile-menu" hidden><strong>Admin account</strong><a asp-controller="Admin" asp-action="Profile">My profile</a><form asp-controller="Account" asp-action="Logout" method="post">@Html.AntiForgeryToken()<button type="submit">Sign out</button></form></div>
+        </div>
+    </div>
+</header>
+

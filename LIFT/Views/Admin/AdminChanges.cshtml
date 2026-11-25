@@ -1,0 +1,17 @@
+@model LIFT.Models.AdminChangesVm
+@{ Layout = null; }
+<!doctype html><html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Change requests | LIFT Admin</title>
+<link rel="stylesheet" href="~/Shared/Components/Admin/Sidebar/sidebar.css" /><link rel="stylesheet" href="~/Admin/Dashboard/dashboard.css" /><link rel="stylesheet" href="~/Shared/CSS/admin-mvc.css" /><link rel="stylesheet" href="~/Shared/CSS/admin-polish.css" /><link rel="stylesheet" href="~/Shared/CSS/admin-stms.css" /><link rel="stylesheet" href="~/Shared/CSS/admin-cycle.css" />
+<script src="~/Shared/JS/theme.js"></script><script src="~/Shared/Components/Admin/Sidebar/sidebar.js" defer></script><script src="~/Shared/JS/admin-shell.js" defer></script></head>
+<body><div class="admin-shell"><partial name="_AdminTopbar" /><lift-admin-sidebar></lift-admin-sidebar><main class="admin-page">
+<header class="dashboard-heading"><div><p class="eyebrow">SPECIALIST ASSIGNMENTS</p><h1>Change requests</h1><p>Review requests and assign an available specialist of the same role.</p></div></header>
+@if (TempData["Success"] is string success) { <p class="admin-notice" role="status">@success</p> }
+@if (TempData["Error"] is string error) { <p class="admin-notice admin-notice-error" role="alert">@error</p> }
+<div class="stms-section-heading"><h2>Pending requests</h2><span>@Model.Requests.Count requests</span></div>
+@if (Model.Requests.Count == 0) { <p class="admin-empty">No pending change requests.</p> }
+else { <div class="admin-table-wrap"><table class="admin-data-table"><thead><tr><th scope="col">Client</th><th scope="col">Role</th><th scope="col">Current specialist</th><th scope="col">Requested</th><th scope="col">Reason and decision</th></tr></thead><tbody>
+@foreach (var request in Model.Requests) {
+<tr><td data-label="Client"><strong>@request.ClientName</strong></td><td data-label="Role">@request.SpecialistRole</td><td data-label="Current specialist">@request.CurrentSpecialistName</td><td data-label="Requested">@request.RequestedAt.ToLocalTime().ToString("yyyy-MM-dd")</td><td data-label="Action"><button type="button" data-admin-dialog-open="change-review-@request.Id">Review request</button><dialog class="admin-edit-dialog" id="change-review-@request.Id"><div class="admin-dialog-heading"><h2>Review @request.ClientName's request</h2><button type="button" data-admin-dialog-close aria-label="Close">×</button></div><p><strong>Current specialist:</strong> @request.CurrentSpecialistName</p><p><strong>Reason:</strong> @request.Reason</p><form asp-controller="Admin" asp-action="DecideChange" method="post" class="admin-dialog-form">@Html.AntiForgeryToken()<input type="hidden" name="RequestId" value="@request.Id" /><label>Replacement<select name="ReplacementSpecialistId"><option value="">Choose for approval</option>@foreach (var candidate in Model.Replacements.Where(x => x.Role == request.SpecialistRole && x.Id != request.CurrentSpecialistId)) { <option value="@candidate.Id">@candidate.Name · @candidate.Specialty · @candidate.AvailableSlots slots</option> }</select></label><label>Admin note<input name="AdminNote" maxlength="1000" /></label><div class="admin-dialog-actions"><button type="button" data-admin-dialog-close>Cancel</button><button name="Decision" value="decline" type="submit">Decline</button><button name="Decision" value="complete" type="submit">Approve change</button></div></form></dialog></td></tr>
+}
+</tbody></table></div> }
+</main></div></body></html>

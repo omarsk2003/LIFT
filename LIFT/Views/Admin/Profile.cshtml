@@ -1,0 +1,52 @@
+@model LIFT.Models.AdminProfileVm
+@{ Layout = null; }
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>My profile | LIFT Admin</title>
+    <link rel="stylesheet" href="~/Shared/Components/Admin/Sidebar/sidebar.css" />
+    <link rel="stylesheet" href="~/Admin/Dashboard/dashboard.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-mvc.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-polish.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-stms.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-cycle.css" />
+    <script src="~/Shared/JS/theme.js"></script>
+    <script src="~/Shared/Components/Admin/Sidebar/sidebar.js" defer></script>
+    <script src="~/Shared/JS/admin-shell.js" defer></script>
+</head>
+<body>
+<div class="admin-shell">
+    <partial name="_AdminTopbar" />
+    <lift-admin-sidebar></lift-admin-sidebar>
+    <main class="admin-page">
+        <header class="dashboard-heading"><div><p class="eyebrow">ACCOUNT / PROFILE</p><h1>My profile</h1><p>Manage the photo and password for your administrator account.</p></div></header>
+        @if (TempData["Success"] is string success) { <p class="admin-notice" role="status">@success</p> }
+        @if (TempData["Error"] is string error) { <p class="admin-notice admin-notice-error" role="alert">@error</p> }
+        <div class="admin-profile-grid">
+            <section class="admin-surface admin-profile-card" aria-labelledby="photo-title">
+                <div class="admin-profile-identity"><span class="admin-profile-photo">@if (!string.IsNullOrWhiteSpace(Model.PhotoUrl)) { <img src="@Model.PhotoUrl" alt="Your profile photo" /> } else { @Model.FullName.Substring(0,1).ToUpperInvariant() }</span><div><h2 id="photo-title">@Model.FullName</h2><p>@Model.Email</p><span class="admin-status">Administrator</span></div></div>
+                <form asp-controller="Admin" asp-action="UpdateProfilePhoto" method="post" enctype="multipart/form-data" class="admin-form-stack">
+                    @Html.AntiForgeryToken()
+                    <label for="admin-photo">Profile photo</label>
+                    <input id="admin-photo" name="photo" type="file" accept="image/jpeg,image/png,image/webp" required />
+                    <p>JPG, PNG or WebP. Maximum 2 MB.</p>
+                    <button type="submit">Save photo</button>
+                </form>
+            </section>
+            <section class="admin-surface admin-profile-card" aria-labelledby="password-title">
+                <h2 id="password-title">Change password</h2><p>Enter your current password to confirm this change. You will sign in again afterwards.</p>
+                <form asp-controller="Admin" asp-action="ChangeAdminPassword" method="post" class="admin-form-stack">
+                    @Html.AntiForgeryToken()
+                    <label for="current-password">Current password</label><input id="current-password" name="CurrentPassword" type="password" autocomplete="current-password" required />
+                    <label for="new-password">New password</label><input id="new-password" name="NewPassword" type="password" minlength="12" autocomplete="new-password" required />
+                    <label for="confirm-password">Confirm new password</label><input id="confirm-password" name="ConfirmPassword" type="password" minlength="12" autocomplete="new-password" required />
+                    <button type="submit">Update password</button>
+                </form>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>
+

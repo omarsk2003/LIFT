@@ -1,0 +1,35 @@
+@model NutritionistClientDetailVm
+@{ ViewData["Title"] = Model.Client.Name; }
+<p><a asp-action="MyClients">← My clients</a></p>
+<h1>@Model.Client.Name</h1>
+<p>@Model.Client.Email | Goal: @(Model.Client.Goal ?? "Not provided")</p>
+<p>Latest plan: @Model.Client.PlanStatus | Published version: @(Model.PublishedVersion?.ToString() ?? "None")</p>
+<form asp-action="OpenClientThread" method="post">@Html.AntiForgeryToken()<input type="hidden" name="clientId" value="@Model.Client.ClientId" /><button type="submit">Message client</button></form>
+<p><a asp-action="Guidance">Nutrition guidance</a></p>
+@if (Model.PendingAiPlans.Count > 0) {
+<section class="panel"><h2>AI plans awaiting review</h2>
+@foreach (var plan in Model.PendingAiPlans) {
+<article><h3>@(plan.Title ?? "Nutrition plan") · Version @plan.VersionNumber</h3>
+<p>@plan.Calories kcal · Protein @plan.ProteinGrams g · Carbs @plan.CarbsGrams g · Fat @plan.FatGrams g · @plan.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd")</p><p>@plan.Notes</p>
+@foreach (var meal in plan.Meals) { <p><strong>@meal.Name</strong> — @meal.Description</p> }
+<form asp-action="ReviewAiPlan" method="post">@Html.AntiForgeryToken()
+<input type="hidden" name="PlanId" value="@plan.Id" />
+<button type="submit" name="Decision" value="approve">Approve and publish</button>
+<button type="submit" name="Decision" value="reject">Reject</button></form></article>
+}</section>
+}
+@if (TempData["Success"] is string message) { <p role="status">@message</p> }
+<div asp-validation-summary="All"></div>
+<form asp-action="SavePlan" method="post">
+    @Html.AntiForgeryToken()
+    <input asp-for="Form.ClientId" type="hidden" name="ClientId" />
+    <p><label>Title <input asp-for="Form.Title" name="Title" /></label></p>
+    <p><label>Notes <textarea asp-for="Form.Notes" name="Notes"></textarea></label></p>
+    <p><label>Daily calories <input asp-for="Form.Calories" name="Calories" type="number" /></label></p>
+    <p><label>Protein (g) <input asp-for="Form.ProteinGrams" name="ProteinGrams" type="number" step="0.01" /></label></p>
+    <p><label>Carbs (g) <input asp-for="Form.CarbsGrams" name="CarbsGrams" type="number" step="0.01" /></label></p>
+    <p><label>Fat (g) <input asp-for="Form.FatGrams" name="FatGrams" type="number" step="0.01" /></label></p>
+    <p><label>Meals (one per line: name: details)<textarea asp-for="Form.MealsText" name="MealsText" maxlength="4000"></textarea></label></p>
+    <button type="submit" name="Publish" value="false">Save draft</button>
+    <button type="submit" name="Publish" value="true">Publish plan</button>
+</form>

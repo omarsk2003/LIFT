@@ -1,0 +1,103 @@
+﻿@model LIFT.Models.AdminCatalogVm
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Subscriptions | LIFT Admin</title>
+    <link rel="stylesheet" href="~/Shared/Components/Admin/Sidebar/sidebar.css" />
+    <link rel="stylesheet" href="~/Admin/Dashboard/dashboard.css" />
+    <link rel="stylesheet" href="~/Admin/Subscriptions/subscriptions.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/theme.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-mvc.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-polish.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-cycle.css" />
+    <script src="~/Shared/JS/theme.js"></script>
+    <script src="~/Shared/Components/Admin/Sidebar/sidebar.js" defer></script>
+    <script src="~/Shared/JS/admin-shell.js" defer></script>
+</head>
+<body>
+<div class="admin-shell">
+    <header class="admin-topbar"><div class="topbar-brand"><a asp-controller="Admin" asp-action="Index"><img src="~/Shared/Assets/Images/lift-logo.png" alt="LIFT" /></a><span>SUBSCRIPTION MANAGEMENT</span></div><div class="topbar-account"><strong>@User.Identity?.Name</strong></div></header>
+    <lift-admin-sidebar></lift-admin-sidebar>
+    <main class="admin-page">
+        <header class="page-heading"><div><p class="eyebrow">ADMIN / SUBSCRIPTIONS</p><h1>Plans and promo codes</h1><p>Changes here are saved in SQL Server. Existing subscriptions keep their original price.</p></div></header>
+        @if (TempData["Success"] is string success) { <p role="status">@success</p> }
+        @if (TempData["Error"] is string error) { <p role="alert">@error</p> }
+        <section aria-labelledby="plans-title">
+            <h2 id="plans-title">Monthly plans</h2>
+            <div class="prices-list admin-plan-table" id="prices-list"><div class="admin-plan-table-head"><span>Plan</span><span>Code</span><span>Monthly price</span><span>Status</span><span>Action</span></div>
+                @foreach (var plan in Model.Plans)
+                {
+                    <article class="price-card">
+                        <h3>@plan.Name</h3><p>@plan.Code</p>
+                        <strong class="price-amount">@plan.MonthlyPrice.ToString("0.00") USD</strong>
+                        <span>@(plan.IsActive ? "Active" : "Inactive")</span>
+                        @if (plan.Code != "free")
+                        {
+                            <button class="admin-edit-trigger" type="button" data-admin-dialog-open="plan-price-@plan.Id">Edit price</button>
+                            <dialog class="admin-edit-dialog" id="plan-price-@plan.Id" aria-labelledby="plan-price-title-@plan.Id">
+                                <div class="admin-dialog-heading"><div><p class="eyebrow">MONTHLY PLAN</p><h2 id="plan-price-title-@plan.Id">Edit @plan.Name</h2></div><button type="button" data-admin-dialog-close aria-label="Close">×</button></div>
+                                <p>Update the monthly price. Existing subscriptions keep their original price.</p>
+                                <form asp-controller="Admin" asp-action="UpdatePlanPrice" method="post" class="admin-dialog-form">
+                                    @Html.AntiForgeryToken()<input type="hidden" name="PlanId" value="@plan.Id" />
+                                    <label>Monthly price (USD)<input name="MonthlyPrice" type="number" min="0.01" max="99999999.99" step="0.01" value="@plan.MonthlyPrice.ToString(System.Globalization.CultureInfo.InvariantCulture)" required /></label>
+                                    <div class="admin-dialog-actions"><button type="button" data-admin-dialog-close>Cancel</button><button type="submit">Save price</button></div>
+                                </form>
+                            </dialog>
+                        }
+                    </article>
+                }
+            </div>
+        </section>
+        <section aria-labelledby="promos-title">
+            <div class="admin-promo-heading"><h2 id="promos-title">Promo codes</h2><button type="button" class="admin-primary-action" data-admin-dialog-open="promo-add-dialog">Add promo code</button></div>
+            <p>Optional start and end times use ISO 8601 with a time-zone offset, for example 2026-12-01T09:00:00+03:00.</p>
+            <div class="admin-promo-filters"><label>Search promo codes<input id="promo-search" type="search" placeholder="Code name" /></label><label>Start date<select id="promo-order"><option value="newest">Latest first</option><option value="oldest">Oldest first</option></select></label><label>Subscription<select id="promo-plan-filter"><option value="all">All subscriptions</option><option value="all-paid">All paid plans</option>@foreach (var plan in Model.Plans.Where(x => x.Code != "free")) { <option value="@plan.Id">@plan.Name</option> }</select></label></div>
+            <dialog class="admin-edit-dialog" id="promo-add-dialog" aria-labelledby="promo-add-title"><div class="admin-dialog-heading"><h2 id="promo-add-title">Add promo code</h2><button type="button" data-admin-dialog-close aria-label="Close">×</button></div><form asp-controller="Admin" asp-action="SavePromo" method="post" class="admin-dialog-form">
+                @Html.AntiForgeryToken()
+                <label>Code <input name="Code" minlength="3" maxlength="50" pattern="[A-Za-z0-9_-]+" required /></label>
+                <label>Discount % <input name="DiscountPercent" type="number" min="0.01" max="99.99" step="0.01" required /></label>
+                <label>Applies to <select name="PlanId"><option value="">All paid plans</option>@foreach (var plan in Model.Plans.Where(x => x.Code != "free" && x.IsActive)) { <option value="@plan.Id">@plan.Name</option> }</select></label>
+                <label>Starts (optional) <input name="StartsAt" type="text" placeholder="2026-12-01T09:00:00+03:00" /></label>
+                <label>Ends (optional) <input name="EndsAt" type="text" placeholder="2026-12-31T23:59:00+03:00" /></label>
+                <div class="admin-dialog-actions"><button type="button" data-admin-dialog-close>Cancel</button><button type="submit">Add promo code</button></div>
+            </form></dialog>
+            <div id="promo-list">
+                @foreach (var promo in Model.Promos)
+                {
+                    <article class="promo-row" data-promo-code="@promo.Code" data-promo-plan="@(promo.PlanId?.ToString() ?? "all-paid")" data-promo-start="@(promo.StartsAt?.ToUnixTimeMilliseconds() ?? 0)">
+                        <div class="promo-identity"><strong>@promo.Code</strong><small>@promo.PlanScope</small></div>
+                        <strong class="promo-discount">@promo.DiscountPercent.ToString("0.##")% off</strong>
+                        <small>@(promo.StartsAt?.ToString("yyyy-MM-dd HH:mm zzz") ?? "Starts immediately") → @(promo.EndsAt?.ToString("yyyy-MM-dd HH:mm zzz") ?? "No end date")</small>
+                        <span class="promo-state @(promo.IsActive ? "active" : "inactive")">@(promo.IsActive ? "Active" : "Inactive")</span>
+                        <div class="admin-promo-actions"><form asp-controller="Admin" asp-action="TogglePromo" method="post">
+                            @Html.AntiForgeryToken()<input type="hidden" name="Id" value="@promo.Id" />
+                            <button type="submit">@(promo.IsActive ? "Deactivate" : "Activate")</button>
+                        </form><button type="button" data-admin-dialog-open="promo-edit-@promo.Id">Edit</button></div>
+                        <dialog class="admin-edit-dialog" id="promo-edit-@promo.Id" aria-labelledby="promo-edit-title-@promo.Id">
+                            <div class="admin-dialog-heading"><div><p class="eyebrow">PROMO CODE</p><h2 id="promo-edit-title-@promo.Id">Edit @promo.Code</h2></div><button type="button" data-admin-dialog-close aria-label="Close">×</button></div>
+                            <form asp-controller="Admin" asp-action="SavePromo" method="post" class="admin-dialog-form">
+                                @Html.AntiForgeryToken()<input type="hidden" name="Id" value="@promo.Id" />
+                                <label>Code <input name="Code" value="@promo.Code" required maxlength="50" /></label>
+                                <label>Discount % <input name="DiscountPercent" type="number" min="0.01" max="99.99" step="0.01" value="@promo.DiscountPercent.ToString(System.Globalization.CultureInfo.InvariantCulture)" required /></label>
+                                <label>Applies to <select name="PlanId"><option value="">All paid plans</option>@foreach (var plan in Model.Plans.Where(x => x.Code != "free" && x.IsActive)) { <option value="@plan.Id" selected="@(promo.PlanId == plan.Id)">@plan.Name</option> }</select></label>
+                                <label>Starts (optional) <input name="StartsAt" type="text" value="@promo.StartsAt?.ToString("yyyy-MM-ddTHH:mm:sszzz")" placeholder="2026-12-01T09:00:00+03:00" /></label>
+                                <label>Ends (optional) <input name="EndsAt" type="text" value="@promo.EndsAt?.ToString("yyyy-MM-ddTHH:mm:sszzz")" placeholder="2026-12-31T23:59:00+03:00" /></label>
+                                <div class="admin-dialog-actions"><button type="button" data-admin-dialog-close>Cancel</button><button type="submit">Save changes</button></div>
+                            </form>
+                        </dialog>
+                    </article>
+                }
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
+
+
+

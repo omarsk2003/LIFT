@@ -1,0 +1,25 @@
+@model ClientProfileVm
+@{ ViewData["Title"] = "My profile"; }
+<h1>My profile</h1><p>@Model.Email</p><div asp-validation-summary="All" role="alert"></div>
+<form asp-action="SaveProfile" method="post" class="panel">@Html.AntiForgeryToken()
+<label>Full name <input name="FullName" value="@Model.Form.FullName" maxlength="120" required /></label>
+<label>Phone <input name="Phone" value="@Model.Form.Phone" maxlength="30" /></label>
+<label>Goal <input name="Goal" value="@Model.Form.Goal" maxlength="100" /></label>
+<label>Goal details <textarea name="GoalNote" maxlength="500">@Model.Form.GoalNote</textarea></label>
+<label>Birth date <input name="BirthDate" type="date" value="@Model.Form.BirthDate?.ToString("yyyy-MM-dd")" /></label>
+<label>Height (cm) <input name="HeightCm" type="number" min="80" max="250" step="0.01" value="@Model.Form.HeightCm" /></label>
+<label>Starting weight (kg) <input name="StartingWeightKg" type="number" min="20" max="500" step="0.01" value="@Model.Form.StartingWeightKg" /></label>
+<label>Fitness level <input name="FitnessLevel" value="@Model.Form.FitnessLevel" maxlength="40" /></label>
+<label>Activity level <input name="ActivityLevel" value="@Model.Form.ActivityLevel" maxlength="40" /></label>
+<label>Training location <input name="TrainingLocation" value="@Model.Form.TrainingLocation" maxlength="40" /></label>
+<label>Session minutes <input name="SessionMinutes" type="number" min="5" max="300" value="@Model.Form.SessionMinutes" /></label>
+<fieldset><legend>Training days</legend>@for (byte day = 1; day <= 7; day++) { <label><input type="checkbox" name="TrainingDays" value="@day" checked="@Model.Form.TrainingDays.Contains(day)" /> Day @day</label> }</fieldset>
+<label>Preferred training time <input name="PreferredTrainingTime" value="@Model.Form.PreferredTrainingTime" maxlength="40" /></label>
+<label>Sleep hours <input name="SleepHours" type="number" min="0" max="24" step="0.1" value="@Model.Form.SleepHours" /></label>
+<label>Schedule notes <textarea name="ScheduleNotes" maxlength="500">@Model.Form.ScheduleNotes</textarea></label>
+<label>Health considerations <textarea name="HealthNotes" maxlength="1000">@Model.Form.HealthNotes</textarea></label>
+<label>Food habits <textarea name="FoodHabits" maxlength="500">@Model.Form.FoodHabits</textarea></label>
+<label>Dietary preferences <textarea name="DietaryPreferences" maxlength="500">@Model.Form.DietaryPreferences</textarea></label>
+<label>Cooking style <input name="CookingStyle" value="@Model.Form.CookingStyle" maxlength="40" /></label>
+<label>Sport <input name="Sport" value="@Model.Form.Sport" maxlength="80" /></label>
+<button type="submit">Save profile</button></form>

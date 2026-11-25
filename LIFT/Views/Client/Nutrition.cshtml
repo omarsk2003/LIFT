@@ -1,0 +1,7 @@
+@model ClientPlansVm
+@{ ViewData["Title"] = "Nutrition"; }
+<h1>Nutrition plan</h1><p>@Model.PlanName</p>
+@if (Model.NutritionVersion is null) { <p>No published nutrition plan is available for your current subscription.</p> }
+else { <p>@Model.NutritionTitle · Version @Model.NutritionVersion</p>
+<p>Daily target: @Model.Calories kcal · Protein @Model.ProteinGrams g · Carbs @Model.CarbsGrams g · Fat @Model.FatGrams g</p>
+@foreach (var meal in Model.Meals) { <article><h2>@meal.Name</h2><p>@meal.Description</p></article> } }

@@ -1,0 +1,21 @@
+@model ClientAiVm
+@{ ViewData["Title"] = "AI Assistant"; }
+<h1>AI Assistant</h1><p>Local AI guidance can make mistakes. Plans stay drafts until a specialist reviews them.</p>
+@if (!Model.Entitled) { <p>An active paid plan is needed to use AI. <a asp-action="Subscription">View plans</a>.</p> }
+else if (!Model.ProfileReady) { <p><a asp-action="Profile">Complete your goals, fitness level and activity level</a> before using AI.</p> }
+else {
+<section class="panel"><h2>Chat</h2>
+@foreach (var message in Model.Messages) { <article><strong>@(message.Role == "assistant" ? "LIFT AI" : "You")</strong><p>@message.Body</p></article> }
+<form asp-action="AiChat" method="post">@Html.AntiForgeryToken()
+<input type="hidden" name="ConversationId" value="@Model.ConversationId" />
+<label>Message <textarea name="Message" required minlength="2" maxlength="2000"></textarea></label><button type="submit">Ask AI</button></form></section>
+<section class="panel"><h2>Analyze my context</h2><form asp-action="AiAnalyze" method="post">@Html.AntiForgeryToken()<button type="submit">Run analysis</button></form>
+@foreach (var run in Model.Analyses) { <article><strong>@run.Status · @run.RequestedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</strong>@if (run.Status == "completed") { <pre style="white-space:pre-wrap">@run.Summary</pre> }</article> }
+</section>
+<section class="panel"><h2>Request a plan draft</h2><p>Requires an assigned coach for workout or nutritionist for nutrition. Your specialist reviews the result before it is shown as a published plan.</p>
+<form asp-action="AiGeneratePlan" method="post">@Html.AntiForgeryToken()
+<button type="submit" name="PlanType" value="workout">Draft workout plan</button>
+<button type="submit" name="PlanType" value="nutrition">Draft nutrition plan</button></form>
+@foreach (var run in Model.Generations) { <p>@run.PlanType · @run.Status · @run.RequestedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</p> }
+</section>
+}

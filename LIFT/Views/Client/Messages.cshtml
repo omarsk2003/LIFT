@@ -1,0 +1,20 @@
+@model ClientMessagesVm
+@{ ViewData["Title"] = "Messages"; }
+<h1>Messages</h1>
+<div class="panel"><h2>Start a conversation</h2>
+<form asp-action="OpenSupportThread" method="post">@Html.AntiForgeryToken()<button type="submit">Contact admin support</button></form>
+@foreach (var specialist in Model.Assigned) {
+<form asp-action="OpenSpecialistThread" method="post">@Html.AntiForgeryToken()
+<input type="hidden" name="specialistId" value="@specialist.SpecialistId" />
+<button type="submit">Message @specialist.Role: @specialist.Name</button></form> }
+</div>
+<section class="panel"><h2>Conversations</h2>
+@if (Model.Threads.Count == 0) { <p>No conversations yet.</p> }
+@foreach (var thread in Model.Threads) { <p><a asp-action="Messages" asp-route-id="@thread.Id">@thread.OtherName</a> · @thread.Kind · @thread.Status</p> }
+</section>
+@if (Model.Selected is not null) { <section class="panel"><h2>@Model.Selected.OtherName</h2>
+@foreach (var message in Model.Messages) { <article><strong>@message.SenderName</strong><small> @message.SentAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</small><p>@message.Body</p></article> }
+@if (Model.Selected.Status == "open") { <form asp-action="SendMessage" method="post">@Html.AntiForgeryToken()
+<input type="hidden" name="ConversationId" value="@Model.Selected.Id" />
+<label>Message <textarea name="Body" required maxlength="4000"></textarea></label><button type="submit">Send</button></form> }
+</section> }

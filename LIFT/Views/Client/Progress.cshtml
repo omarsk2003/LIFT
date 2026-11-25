@@ -1,0 +1,15 @@
+@model ClientProgressVm
+@{ ViewData["Title"] = "Progress"; }
+<h1>Progress</h1>
+<form asp-action="AddActivity" method="post" class="panel">@Html.AntiForgeryToken()<h2>Record activity</h2>
+<label>Type <select name="ActivityType"><option value="workout">Workout</option><option value="meal">Meal</option><option value="other">Other</option></select></label>
+<label>Date <input name="ActivityDate" type="date" value="@DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd")" required /></label>
+<label>Label <input name="Label" maxlength="200" /></label><button type="submit">Save activity</button></form>
+<form asp-action="AddMeasurement" method="post" class="panel">@Html.AntiForgeryToken()<h2>Record measurement</h2>
+<label>Weight (kg) <input name="WeightKg" type="number" min="20" max="500" step="0.01" required /></label>
+<label>Body fat % <input name="BodyFatPercent" type="number" min="0" max="100" step="0.01" /></label>
+<label>Muscle % <input name="MusclePercent" type="number" min="0" max="100" step="0.01" /></label><button type="submit">Save measurement</button></form>
+<h2>Recent activity</h2>@if (Model.Activities.Count == 0) { <p>No activity recorded yet.</p> }
+@foreach (var item in Model.Activities) { <article>@item.ActivityDate · @item.ActivityType · @item.Label</article> }
+<h2>Measurements</h2>@if (Model.Measurements.Count == 0) { <p>No measurements recorded yet.</p> }
+@foreach (var item in Model.Measurements) { <article>@item.RecordedAt.ToLocalTime().ToString("yyyy-MM-dd") · @item.WeightKg kg · Body fat @item.BodyFatPercent % · Muscle @item.MusclePercent %</article> }

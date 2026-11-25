@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Progress | LIFT</title>
+  <link rel="stylesheet" href="../../Shared/Components/Client/Navbar/navbar.css">
+  <link rel="stylesheet" href="progress.css">
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <link rel="stylesheet" href="../../Shared/CSS/measurement-charts.css">
+  <link rel="stylesheet" href="../client-design-system.css">
+  <link rel="stylesheet" href="../client-dark-mode.css">
+  <link rel="stylesheet" href="../client-tier.css">
+  <script src="../../Shared/JS/theme.js"></script>
+  <script src="../client-access.js"></script>
+  <script src="../../Shared/Components/Client/Navbar/navbar.js" defer></script>
+  <script src="../client-preview-states.js" defer></script>
+  <script src="../../Shared/JS/activity-chart.js" defer></script>
+  <script src="../../Shared/JS/measurement-charts.js" defer></script>
+  <script src="progress.js" defer></script>
+</head>
+<body>
+  <div class="progress-shell"><lift-client-navbar></lift-client-navbar>
+    <main class="progress-page" id="main">
+      <header class="page-heading"><div><p class="eyebrow">YOUR JOURNEY</p><h1>Progress that feels <span>personal.</span></h1><p>See the workouts and meals you have logged.</p></div></header>
+      <section class="summary-grid activity-summary" aria-label="Activity overview">
+        <article class="summary-card primary"><span class="card-label">WORKOUT CHECK-INS</span><strong id="workout-count">0</strong><span class="card-note">Completed in the last seven days</span></article>
+        <article class="summary-card"><span class="card-label">MEAL CHECK-INS</span><strong id="meal-count">0</strong><span class="card-note">Logged in the last seven days</span></article>
+      </section>
+      <section class="history-card body-metrics">
+        <div class="card-heading compact metric-heading"><div><p class="eyebrow">YOUR BODY METRICS</p><h2>Record your measurements</h2><p>Add your weight, body fat percentage, and muscle percentage to track each trend.</p></div><button id="open-metric-dialog" class="metric-open" type="button">Add measurements ↗</button></div>
+        <p id="latest-metric" class="latest-metric">No metrics recorded yet.</p><ul id="metric-list" class="activity-list"></ul>
+      </section>
+      <section class="chart-card activity-chart-card"><div class="card-heading"><div><p class="eyebrow">BODY METRICS OVER TIME</p><h2>Three ways to see your progress</h2><p>Your saved measurements appear in separate charts below.</p></div></div><div id="progress-chart"></div></section>
+    </main>
+  </div>
+  <dialog id="metric-dialog" class="metric-dialog" aria-labelledby="metric-dialog-title">
+    <div class="metric-dialog-heading"><div><p class="eyebrow">YOUR BODY METRICS</p><h2 id="metric-dialog-title">Add measurements</h2><p>Record today's values to update your progress charts.</p></div><button id="close-metric-dialog" type="button" aria-label="Close measurements">×</button></div>
+    <form id="metric-form" class="metric-form"><label>Weight (kg)<input id="metric-weight" type="number" min="20" max="500" step="0.1" inputmode="decimal" required></label><label>Body fat (%)<input id="metric-fat" type="number" min="1" max="80" step="0.1" inputmode="decimal" required></label><label>Muscle (%)<input id="metric-muscle" type="number" min="1" max="90" step="0.1" inputmode="decimal" required></label><label>BMI (optional)<input id="metric-bmi" type="number" min="10" max="80" step="0.1" inputmode="decimal"></label><p id="metric-error" class="metric-error" role="alert" hidden></p><div class="metric-dialog-actions"><button id="cancel-metric-dialog" type="button">Cancel</button><button type="submit">Save entry ↗</button></div></form>
+  </dialog>
+</body>
+</html>

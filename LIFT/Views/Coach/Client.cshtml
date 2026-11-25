@@ -1,0 +1,27 @@
+@model CoachClientDetailVm
+@{ ViewData["Title"] = Model.Client.Name; }
+<p><a asp-action="MyClients">← My clients</a></p>
+<h1>@Model.Client.Name</h1>
+<p>@Model.Client.Email · Goal: @(Model.Client.Goal ?? "Not provided") · Latest plan: @Model.Client.PlanStatus</p>
+<section class="panel"><h2>Training context</h2>
+<p>Fitness level: @(Model.FitnessLevel ?? "—") · Activity: @(Model.ActivityLevel ?? "—") · Location: @(Model.TrainingLocation ?? "—") · Session: @(Model.SessionMinutes?.ToString() ?? "—") minutes</p>
+@if (!string.IsNullOrWhiteSpace(Model.HealthNotes)) { <p>Health considerations: @Model.HealthNotes</p> }
+</section>
+<form asp-action="OpenClientThread" method="post">@Html.AntiForgeryToken()<input type="hidden" name="clientId" value="@Model.Client.ClientId" /><button type="submit">Message client</button></form>
+<p><a asp-action="Guidance">Exercise coaching notes</a> · Published version: @(Model.PublishedVersion?.ToString() ?? "None")</p>
+@if (Model.PendingAiPlans.Count > 0) {
+<section class="panel"><h2>AI workout plans awaiting review</h2>
+@foreach (var plan in Model.PendingAiPlans) { <article><h3>@(plan.Title ?? "Workout plan") · Version @plan.VersionNumber</h3><p>@plan.Notes</p>
+@foreach (var item in plan.Exercises) { <p>Day @item.Day: @item.Name · @item.Sets sets · @item.Reps reps · @item.DurationMinutes min · @item.Instructions</p> }
+<form asp-action="ReviewAiPlan" method="post">@Html.AntiForgeryToken()<input type="hidden" name="PlanId" value="@plan.Id" />
+<button type="submit" name="Decision" value="approve">Approve and publish</button><button type="submit" name="Decision" value="reject">Reject</button></form></article> }
+</section> }
+<section class="panel"><h2>Workout plan</h2><p>Each line: day (1–7) | exercise | sets | reps | minutes | instructions. Example: 1 | Squat | 3 | 8–10 | | Keep your back straight</p>
+<div asp-validation-summary="All" role="alert"></div>
+<form asp-action="SavePlan" method="post">@Html.AntiForgeryToken()
+<input type="hidden" name="ClientId" value="@Model.Form.ClientId" />
+<label>Title <input name="Title" value="@Model.Form.Title" maxlength="200" required /></label>
+<label>Notes <textarea name="Notes" maxlength="2000">@Model.Form.Notes</textarea></label>
+<label>Exercises <textarea name="ExercisesText" maxlength="12000" rows="10" required>@Model.Form.ExercisesText</textarea></label>
+<button type="submit" name="Publish" value="false">Save draft</button><button type="submit" name="Publish" value="true">Publish plan</button>
+</form></section>

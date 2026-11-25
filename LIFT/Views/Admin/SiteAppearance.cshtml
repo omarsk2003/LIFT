@@ -1,0 +1,48 @@
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Site appearance | LIFT Admin</title>
+    <link rel="stylesheet" href="~/Shared/Components/Admin/Sidebar/sidebar.css" />
+    <link rel="stylesheet" href="~/Admin/Dashboard/dashboard.css" />
+    
+    <link rel="stylesheet" href="~/Shared/CSS/admin-mvc.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-polish.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-stms.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-cycle.css" />
+    <script src="~/Shared/JS/theme.js"></script>
+    <script src="~/Shared/Components/Admin/Sidebar/sidebar.js" defer></script>
+    <script src="~/Shared/JS/admin-shell.js" defer></script>
+</head>
+<body>
+<div class="admin-shell"><partial name="_AdminTopbar" />
+<lift-admin-sidebar></lift-admin-sidebar><main class="admin-page">
+<header class="dashboard-heading"><div><p class="eyebrow">ADMIN / SITE</p><h1>Site appearance</h1><p>This editor is still a frontend preview. No server settings are connected yet.</p></div></header>
+<section class="active-section"><h2>Public pages</h2><p>You can review the current pages while the backend editor is being moved.</p>
+<p><a asp-controller="Public" asp-action="Landing">Landing</a> · <a asp-controller="Public" asp-action="About">About</a> · <a asp-controller="Public" asp-action="Contact">Contact</a></p></section>
+</main></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,15 @@
+@model NutritionMeetingPageVm
+@{ ViewData["Title"] = "Meetings"; }
+<h1>Meetings</h1>
+<p>Propose a time to an assigned client. A video service is not connected yet.</p>
+<form asp-action="CreateMeeting" method="post" class="panel">@Html.AntiForgeryToken()
+<label>Client <select name="ClientId" required><option value="">Choose client</option>@foreach (var client in Model.Clients) { <option value="@client.ClientId">@client.Name</option> }</select></label>
+<label>Topic <input name="Topic" required maxlength="200" /></label>
+<label>Start <input name="StartsAt" type="datetime-local" required /></label>
+<label>Duration (minutes) <input name="DurationMinutes" type="number" min="15" max="180" value="30" required /></label>
+<label>HTTPS meeting link (optional) <input name="MeetingUrl" type="url" maxlength="1000" /></label>
+<button type="submit">Propose meeting</button></form>
+@if (Model.Meetings.Count == 0) { <p>No meetings yet.</p> }
+@foreach (var meeting in Model.Meetings) { <article><h2>@meeting.Topic</h2><p>@meeting.ClientName · @meeting.StartsAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm") · @meeting.DurationMinutes min · @meeting.Status</p>
+@if (meeting.Status is "pending" or "accepted" && meeting.StartsAt > DateTimeOffset.UtcNow) { <form asp-action="CancelMeeting" asp-route-id="@meeting.Id" method="post">@Html.AntiForgeryToken()<button type="submit">Cancel meeting</button></form> }
+</article> }

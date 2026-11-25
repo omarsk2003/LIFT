@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090D0E">
+  <title>AI Assistant | LIFT</title>
+  <meta name="description" content="Your LIFT client experience, shaped by your subscription and goals.">
+  <link rel="stylesheet" href="../../Shared/Components/Client/Navbar/navbar.css">
+  <link rel="stylesheet" href="ai-assistant.css">
+  <link rel="stylesheet" href="personalization.css">
+  <script src="../../Shared/Components/Client/Navbar/navbar.js" defer></script>
+  <script src="ai-assistant.js" defer></script>
+  <script src="personalization.js" defer></script>
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <link rel="stylesheet" href="../client-design-system.css">
+  <link rel="stylesheet" href="assistant-refinement.css">
+  <link rel="stylesheet" href="first-use-gate.css">
+  <script src="../../Shared/JS/theme.js"></script>
+<link rel="stylesheet" href="../client-dark-mode.css">
+  <link rel="stylesheet" href="../client-tier.css">
+  <script src="../client-access.js"></script>
+</head>
+<body>
+  <div class="assistant-shell">
+    <lift-client-navbar></lift-client-navbar>
+    <main class="assistant-layout">
+      <section class="conversation" aria-labelledby="assistant-title">
+        <div class="conversation-heading"><div><p class="eyebrow">YOUR TRAINING COMPANION</p><h1 id="assistant-title">LIFT Engine <span class="engine-status"><span aria-hidden="true"></span> Ready to help</span></h1></div><span class="premium-label" id="member-tier">YOUR PLAN</span></div>
+        <div class="personalization-gate"><p class="eyebrow">BEFORE YOUR FIRST QUESTION</p><h2>Tell LIFT a little about yourself.</h2><p>Save your goals, routine, and food preferences to start chatting. Free members get general guidance; AI Plan and Premium add personalized planning.</p><button id="start-profile-setup" type="button">Complete my profile <span aria-hidden="true">↗</span></button></div>
+        <div class="assistant-actions"><button type="button" id="build-plan">BUILD MY PLAN ↗</button><span id="profile-usage-note">Build your plan to set up personalized guidance.</span></div>
+        <div class="suggested-prompts" aria-label="Suggested questions"><span>START WITH A QUESTION</span><button type="button" data-prompt="How can I fit movement into a busy day?">Fit movement into my day ↗</button><button type="button" data-prompt="What can I eat when I have little time to cook?">Quick food ideas ↗</button><button type="button" data-prompt="How should I think about recovery this week?">Talk about recovery ↗</button></div>
+        <div class="conversation-scroll" id="conversation-scroll" role="log" aria-label="Conversation with LIFT Engine" aria-live="polite" aria-relevant="additions"></div>
+        <form class="composer" id="assistant-form"><label class="sr-only" for="message-input">Message LIFT Engine</label><input id="message-input" name="message" type="text" placeholder="Enter a question or ask about your plan…" autocomplete="off" maxlength="500" required><button type="submit" id="send-button">SEND <span aria-hidden="true">↗</span></button></form>
+      </section>
+      <aside class="assistant-sidebar" aria-label="Plan information"><section class="sidebar-card premium-review" id="premium-team"><div class="sidebar-card-heading"><span class="side-icon" aria-hidden="true">✓</span><h2>Your Premium Team</h2></div><p>Premium adds coach support for training and nutritionist support for food.</p></section></aside>
+    </main>
+  </div>
+</body>
+</html>
+

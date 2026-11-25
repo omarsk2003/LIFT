@@ -1,0 +1,7 @@
+@model CoachDashboardVm
+@{ ViewData["Title"] = "Coach dashboard"; }
+<h1>Welcome, @Model.Name</h1>
+<p>Assigned clients: @Model.Clients.Count | Published workout plans: @Model.PublishedPlans</p>
+<p><a asp-action="MyClients">Open my clients</a></p>
+@if (Model.Clients.Count == 0) { <p>No clients assigned yet.</p> }
+else { <ul>@foreach (var client in Model.Clients) { <li><a asp-action="Client" asp-route-id="@client.ClientId">@client.Name</a> — @client.PlanStatus</li> }</ul> }

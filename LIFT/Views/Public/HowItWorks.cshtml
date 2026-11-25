@@ -1,0 +1,47 @@
+@{ Layout = null; }
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101713"><meta name="description" content="Explore the steps in each LIFT plan, from getting started to tracking progress.">
+  <title>How It Works | LIFT</title>
+  
+  
+  <link rel="stylesheet" href="/Shared/CSS/theme.css">
+  <link rel="stylesheet" href="/Public/HowItWorks/how-it-works.css">
+  <link rel="stylesheet" href="/Public/public-shell.css">
+  <link rel="stylesheet" href="/Public/HowItWorks/how-it-works-polish.css">
+  <script src="/Shared/JS/theme.js"></script>
+  <script src="/Public/public-navbar.js" defer></script>
+  <script src="/Public/public-footer.js" defer></script>
+  <script src="/Public/HowItWorks/how-it-works.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a><lift-navbar></lift-navbar>
+  <main id="main" class="how-page">
+    <section class="how-hero" aria-labelledby="page-title">
+      <div class="how-shell">
+        <span class="eyebrow"><i></i> YOUR JOURNEY, YOUR WAY</span>
+        <h1 id="page-title">How It Works</h1>
+        <p>Start with the support that fits you. Select a plan to see the steps from your first day to ongoing progress.</p>
+      </div>
+    </section>
+    <section class="how-plans how-shell" aria-labelledby="plan-heading">
+      <div class="section-heading"><span id="plan-heading">SELECT A PLAN TO PREVIEW YOUR JOURNEY</span><span class="selector-label">✳ INTERACTIVE SELECTOR</span></div>
+      <div class="plan-grid" role="group" aria-label="Choose a LIFT plan">
+        <button class="plan-card" type="button" data-plan="free" aria-pressed="false"><span class="plan-index">01 / FREE</span><span class="plan-check" aria-hidden="true">✓</span><strong>Free</strong><span class="plan-description">Build consistency with workout and meal tracking.</span><span class="plan-action">View flow <b aria-hidden="true">→</b></span></button>
+        <button class="plan-card is-active" type="button" data-plan="coach" aria-pressed="true"><span class="plan-index">02 / AI + COACH</span><span class="plan-check" aria-hidden="true">✓</span><strong>AI + Coach</strong><span class="plan-description">Personalized AI planning with a coach for training support.</span><span class="plan-action">Active view <b aria-hidden="true">→</b></span></button>
+        <button class="plan-card" type="button" data-plan="nutrition" aria-pressed="false"><span class="plan-index">03 / AI + NUTRITIONIST</span><span class="plan-check" aria-hidden="true">✓</span><strong>AI + Nutritionist</strong><span class="plan-description">Personalized AI planning with a nutritionist for food guidance.</span><span class="plan-action">View flow <b aria-hidden="true">→</b></span></button>
+        <button class="plan-card" type="button" data-plan="premium" aria-pressed="false"><span class="plan-index">04 / PREMIUM</span><span class="plan-check" aria-hidden="true">✓</span><strong>Premium</strong><span class="plan-description">AI planning, a coach, and a nutritionist together.</span><span class="plan-action">View flow <b aria-hidden="true">→</b></span></button>
+      </div>
+    </section>
+    <section class="how-journey how-shell" aria-labelledby="sequence-title">
+      <div class="journey-heading"><span class="eyebrow"><i></i> YOUR JOURNEY</span><h2 id="sequence-title">AI + Coach experience sequence</h2><p id="sequence-summary">A clear path shaped around your life.</p></div>
+      <div class="steps-grid" id="steps-grid" aria-live="polite"></div>
+    </section>
+    <section class="how-cta how-shell"><div class="cta-panel"><span class="eyebrow">READY WHEN YOU ARE</span><h2>Start where you are.<br><em>Build from there.</em></h2><p>Choose the support that fits your goals and your routine.</p><a href="/Account/Register">Start your journey <span aria-hidden="true">↗</span></a></div></section>
+  </main>
+  <lift-footer></lift-footer>
+</body>
+</html>
+

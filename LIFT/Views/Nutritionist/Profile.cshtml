@@ -1,0 +1,15 @@
+@model NutritionistProfileVm
+@{ ViewData["Title"] = "Profile"; }
+<h1>My profile</h1>
+<p>@Model.Email · @Model.ActiveClients / @Model.Capacity active clients</p>
+<form asp-action="UpdateProfile" method="post" class="panel">
+    @Html.AntiForgeryToken()
+    <label>Name <input name="Name" value="@Model.Name" required maxlength="120" /></label>
+    <label>Phone <input name="Phone" value="@Model.Phone" maxlength="30" /></label>
+    <label>Specialty <input name="Specialty" value="@Model.Specialty" required maxlength="120" /></label>
+    <label>Experience (years) <input name="ExperienceYears" type="number" min="0" max="60" value="@Model.ExperienceYears" /></label>
+    <label>Bio <textarea name="Bio" maxlength="1000">@Model.Bio</textarea></label>
+    <label>Client capacity <input name="Capacity" type="number" min="1" max="8" value="@Model.Capacity" required /></label>
+    <label><input name="AcceptingNewClients" type="checkbox" value="true" checked="@Model.AcceptingNewClients" /> Accept new clients</label>
+    <button type="submit">Save profile</button>
+</form>

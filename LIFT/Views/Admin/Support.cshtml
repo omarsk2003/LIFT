@@ -1,0 +1,114 @@
+@model LIFT.Models.AdminSupportVm
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Support messages | LIFT Admin</title>
+    <link rel="stylesheet" href="~/Shared/Components/Admin/Sidebar/sidebar.css" />
+    <link rel="stylesheet" href="~/Admin/Dashboard/dashboard.css" />
+    <link rel="stylesheet" href="~/Admin/Messages/messages.css" />
+    
+    <link rel="stylesheet" href="~/Shared/CSS/admin-mvc.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-polish.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-stms.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-cycle.css" />
+    <script src="~/Shared/JS/theme.js"></script>
+    <script src="~/Shared/Components/Admin/Sidebar/sidebar.js" defer></script>
+    <script src="~/Shared/JS/admin-shell.js" defer></script>
+</head>
+<body>
+<div class="admin-shell">
+    <partial name="_AdminTopbar" />
+    <lift-admin-sidebar></lift-admin-sidebar>
+    <main class="admin-page">
+        <header class="page-heading"><div><p class="eyebrow">ADMIN / MESSAGES</p><h1>Conversations</h1><p>Latest support and specialist conversations from SQL Server.</p></div></header>
+        @if (TempData["Success"] is string success) { <p role="status">@success</p> }
+        @if (TempData["Error"] is string error) { <p role="alert">@error</p> }
+        <section class="active-section" aria-labelledby="contact-title">
+            <h2 id="contact-title">Visitor contact messages</h2>
+            @if (Model.Contacts.Count == 0) { <p>No visitor messages yet.</p> }
+            <div class="active-list">
+                @foreach (var contact in Model.Contacts)
+                {
+                    <article class="active-card" style="display:block">
+                        <strong>@contact.Name</strong> <small>@contact.Email · @contact.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm") · @contact.Status</small>
+                        <p style="white-space:pre-wrap;overflow-wrap:anywhere">@contact.Body</p>
+                        @if (contact.Status != "closed")
+                        {
+                            <form asp-controller="Admin" asp-action="SetContactStatus" method="post">
+                                @Html.AntiForgeryToken()<input type="hidden" name="Id" value="@contact.Id" />
+                                @if (contact.Status == "new") { <button name="Status" value="reviewed" type="submit">Mark reviewed</button> }
+                                <button name="Status" value="closed" type="submit">Close</button>
+                            </form>
+                        }
+                    </article>
+                }
+            </div>
+        </section>
+        <div class="messages-shell">
+            <section class="inbox-panel" aria-label="Conversations">
+                <h2>Inbox (@Model.Threads.Count)</h2>
+                @if (Model.Threads.Count == 0) { <p>No conversations yet.</p> }
+                <div class="message-list">
+                    @foreach (var thread in Model.Threads)
+                    {
+                        <a class="message-item @(Model.Selected?.Id == thread.Id ? "active" : "")" asp-controller="Admin" asp-action="Support" asp-route-id="@thread.Id">
+                            <strong>@thread.OtherName</strong><small>@thread.Kind · @thread.Status</small>
+                            <p>@thread.Subject</p><time>@((thread.LastMessageAt ?? thread.CreatedAt).ToLocalTime().ToString("yyyy-MM-dd HH:mm"))</time>
+                        </a>
+                    }
+                </div>
+            </section>
+            <section class="conversation-panel" aria-label="Selected conversation">
+                @if (Model.Selected is null) { <p>Select a conversation.</p> }
+                else
+                {
+                    <header><p class="eyebrow">@Model.Selected.Kind.ToUpperInvariant()</p><h2>@Model.Selected.Subject</h2><p>@Model.Selected.OtherName · @Model.Selected.Status</p></header>
+                    <div class="conversation-content">
+                        @foreach (var message in Model.Messages)
+                        {
+                            <article class="message-bubble"><strong>@message.SenderName</strong><p>@message.Body</p><time>@message.SentAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</time></article>
+                        }
+                    </div>
+                    @if (Model.Selected.Status == "open")
+                    {
+                        <form class="admin-reply-form" asp-controller="Admin" asp-action="Reply" method="post">
+                            @Html.AntiForgeryToken()<input type="hidden" name="ConversationId" value="@Model.Selected.Id" />
+                            <label for="reply-body">Reply</label><textarea id="reply-body" name="Body" maxlength="4000" required></textarea>
+                            <button type="submit">Send reply</button>
+                        </form>
+                        @if (Model.Selected.Kind == "support")
+                        {
+                        <form class="admin-close-form" asp-controller="Admin" asp-action="CloseSupport" method="post">
+                                @Html.AntiForgeryToken()<input type="hidden" name="ConversationId" value="@Model.Selected.Id" />
+                                <button type="submit">Close support conversation</button>
+                            </form>
+                        }
+                    }
+                }
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

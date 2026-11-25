@@ -1,0 +1,19 @@
+@model LIFT.Models.AdminAccountsVm
+@{ Layout = null; }
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>Admin accounts | LIFT</title>
+<link rel="stylesheet" href="~/Shared/Components/Admin/Sidebar/sidebar.css" /><link rel="stylesheet" href="~/Admin/Dashboard/dashboard.css" /><link rel="stylesheet" href="~/Shared/CSS/admin-mvc.css" /><link rel="stylesheet" href="~/Shared/CSS/admin-polish.css" /><link rel="stylesheet" href="~/Shared/CSS/admin-stms.css" /><link rel="stylesheet" href="~/Shared/CSS/admin-cycle.css" />
+<script src="~/Shared/JS/theme.js"></script><script src="~/Shared/Components/Admin/Sidebar/sidebar.js" defer></script><script src="~/Shared/JS/admin-shell.js" defer></script></head>
+<body><div class="admin-shell"><partial name="_AdminTopbar" /><lift-admin-sidebar></lift-admin-sidebar><main class="admin-page">
+<header class="dashboard-heading"><div><p class="eyebrow">TEAM ACCESS</p><h1>Admin accounts</h1><p>Manage the people who can access the admin workspace.</p></div></header>
+@if (TempData["Success"] is string success) { <p class="admin-notice" role="status">@success</p> }
+@if (TempData["Error"] is string error) { <p class="admin-notice admin-notice-error" role="alert">@error</p> }
+<section class="active-section"><div class="stms-section-heading"><h2>Current admins</h2><div class="admin-heading-actions"><span>@Model.Accounts.Count accounts</span><button type="button" class="admin-primary-action" data-admin-dialog-open="add-admin-dialog">Add admin</button></div></div>
+<div class="admin-table-wrap"><table class="admin-data-table"><thead><tr><th scope="col">Administrator</th><th scope="col">Email</th><th scope="col">Joined</th><th scope="col">Status</th><th scope="col">Actions</th></tr></thead><tbody>
+@foreach (var account in Model.Accounts) {
+<tr><td data-label="Administrator"><strong>@account.FullName</strong>@if (account.Id == Model.CurrentUserId) { <small>You</small> }</td><td data-label="Email">@account.Email</td><td data-label="Joined">@account.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd")</td><td data-label="Status"><span class="admin-status">@account.Status</span></td><td data-label="Actions">@if (account.Id != Model.CurrentUserId) { <form class="admin-row-actions" asp-controller="Admin" asp-action="SetAdminStatus" method="post">@Html.AntiForgeryToken()<input type="hidden" name="UserId" value="@account.Id" />@if (account.Status == "active") { <button name="Status" value="suspended" type="submit">Suspend</button><button name="Status" value="blocked" type="submit">Block</button> } else { <button name="Status" value="active" type="submit">Reactivate</button> }</form> }</td></tr>
+}
+</tbody></table></div></section>
+<dialog class="admin-edit-dialog" id="add-admin-dialog" aria-labelledby="create-admin-title"><div class="admin-dialog-heading"><div><p class="eyebrow">TEAM ACCESS</p><h2 id="create-admin-title">Add administrator</h2></div><button type="button" class="admin-dialog-close" data-admin-dialog-close aria-label="Close">×</button></div><p class="admin-dialog-note">Create an account with a temporary password that the new admin can change from their profile.</p><form asp-controller="Admin" asp-action="CreateAdmin" method="post" class="admin-dialog-form">@Html.AntiForgeryToken()<label for="admin-name">Full name<input id="admin-name" name="FullName" minlength="2" maxlength="120" required /></label><label for="admin-email">Email<input id="admin-email" name="Email" type="email" maxlength="256" required /></label><label for="admin-password">Initial password<input id="admin-password" name="Password" type="password" minlength="12" autocomplete="new-password" required /></label><div class="admin-dialog-actions"><button type="button" data-admin-dialog-close>Cancel</button><button type="submit">Create admin</button></div></form></dialog>
+</main></div></body></html>
+

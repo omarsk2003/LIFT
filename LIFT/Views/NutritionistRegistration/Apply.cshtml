@@ -1,0 +1,33 @@
+@model LIFT.Models.SpecialistRegistrationForm
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nutritionist application | LIFT</title>
+    <link rel="stylesheet" href="~/Shared/CSS/theme.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/specialist-registration.css" />
+    <style>body{padding:2rem;max-width:52rem;margin:auto}form{display:grid;gap:1rem}label{display:grid;gap:.35rem}input,textarea{padding:.7rem}button{padding:.8rem;cursor:pointer}</style>
+</head>
+<body>
+<header><a asp-controller="Public" asp-action="Landing">LIFT</a> · <a asp-controller="Account" asp-action="Login">Sign in</a></header>
+<main><h1>Apply as a nutritionist</h1><p>Your account stays pending until an admin reviews your certificates.</p>
+<form asp-controller="NutritionistRegistration" asp-action="Apply" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()<div asp-validation-summary="All" role="alert"></div>
+    <label>Full name <input name="FullName" value="@Model.FullName" maxlength="120" required /></label>
+    <label>Email <input name="Email" type="email" value="@Model.Email" maxlength="256" required /></label>
+    <label>Phone <input name="Phone" type="tel" value="@Model.Phone" maxlength="30" /></label>
+    <label>Password <input name="Password" type="password" minlength="8" autocomplete="new-password" required /></label>
+    <label>Confirm password <input name="ConfirmPassword" type="password" minlength="8" autocomplete="new-password" required /></label>
+    <label>Specialty <input name="Specialty" value="@Model.Specialty" maxlength="120" required /></label>
+    <label>Professional bio <textarea name="Bio" maxlength="1000" minlength="10" required>@Model.Bio</textarea></label>
+    <label>Years of experience <input name="ExperienceYears" type="number" min="0" max="60" value="@Model.ExperienceYears" required /></label>
+    <label>Client capacity <input name="Capacity" type="number" min="1" max="8" value="@Model.Capacity" required /></label>
+    <label>PDF certificates (1–5, up to 10 MB each) <input name="Certificates" type="file" accept=".pdf,application/pdf" multiple required /></label>
+    <button type="submit">Submit application</button>
+</form></main>
+</body>
+</html>
+

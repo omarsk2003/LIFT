@@ -1,0 +1,9 @@
+@model ClientDashboardVm
+@{ ViewData["Title"] = "Dashboard"; }
+<h1>Welcome, @Model.Name</h1>
+<div class="panel"><p>Current plan: <strong>@Model.PlanName</strong></p>
+<p>Coach: @(Model.CoachName ?? "None assigned") · Nutritionist: @(Model.NutritionistName ?? "None assigned")</p>
+<p>Activities recorded: @Model.ActivityCount · Unread notifications: @Model.UnreadNotifications</p>
+@if (!Model.ProfileComplete) { <p><a asp-action="Profile">Complete your profile</a> to prepare for personalized plans.</p> }
+</div>
+<p><a asp-action="Workout">Workout plan</a> · <a asp-action="Nutrition">Nutrition plan</a> · <a asp-action="Progress">Progress</a></p>

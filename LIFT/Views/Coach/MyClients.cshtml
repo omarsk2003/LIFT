@@ -1,0 +1,7 @@
+@model CoachDashboardVm
+@{ ViewData["Title"] = "My clients"; }
+<h1>My clients</h1>
+@if (Model.Clients.Count == 0) { <p>No active clients assigned yet.</p> }
+else { <table><thead><tr><th>Name</th><th>Goal</th><th>Workout plan</th><th>Assigned</th><th></th></tr></thead><tbody>
+@foreach (var client in Model.Clients) { <tr><td>@client.Name</td><td>@(client.Goal ?? "—")</td><td>@client.PlanStatus</td><td>@client.AssignedAt.ToLocalTime().ToString("yyyy-MM-dd")</td><td><a asp-action="Client" asp-route-id="@client.ClientId">View client</a></td></tr> }
+</tbody></table> }

@@ -1,0 +1,9 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>@ViewData["Title"] | LIFT</title><link rel="stylesheet" href="~/Shared/CSS/theme.css" />
+<style>body{margin:0;background:#0b1713;color:#f2f5f1;font:16px/1.5 system-ui,sans-serif}header,main{max-width:1100px;margin:auto;padding:1rem 1.5rem}header{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}nav{display:flex;gap:1rem;flex-wrap:wrap}a{color:#65e5ab}button,input,select,textarea{font:inherit}button{cursor:pointer;padding:.45rem .8rem}input,select,textarea{padding:.45rem;background:#f2f5f1;color:#102018;max-width:100%}textarea{min-width:min(100%,30rem);min-height:5rem}label{display:block;margin:.65rem 0}article,.panel{background:#14251e;border:1px solid #345345;border-radius:12px;padding:1rem;margin:1rem 0}table{width:100%;border-collapse:collapse}td,th{padding:.65rem;border-bottom:1px solid #345345;text-align:left}.notice{padding:.7rem;background:#1c503c;border-radius:8px}</style>
+</head><body><header><a asp-controller="Client" asp-action="Index"><strong>LIFT</strong></a>
+<nav aria-label="Client pages"><a asp-action="Index">Dashboard</a><a asp-action="Profile">Profile</a><a asp-action="Subscription">Subscription</a><a asp-action="Workout">Workout</a><a asp-action="Nutrition">Nutrition</a><a asp-action="Progress">Progress</a><a asp-action="AiAssistant">AI</a><a asp-action="Messages">Messages</a><a asp-action="Meetings">Meetings</a><a asp-action="Notifications">Notifications</a></nav>
+<form asp-controller="Account" asp-action="Logout" method="post">@Html.AntiForgeryToken()<button type="submit">Sign out</button></form></header><main>
+@if (TempData["Success"] is string success) { <p class="notice" role="status">@success</p> }
+@if (TempData["Error"] is string error) { <p class="notice" role="alert">@error</p> }
+@RenderBody()</main></body></html>

@@ -1,0 +1,9 @@
+.vs/
+**/bin/
+**/obj/
+**/App_Data/
+*.user
+*.suo
+*.cache
+*.log
+LIFT/appsettings.Development.json

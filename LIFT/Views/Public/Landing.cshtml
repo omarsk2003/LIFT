@@ -1,0 +1,363 @@
+@{ Layout = null; }
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#E5E8C8">
+  <meta name="description" content="A look inside the real day behind a healthy lifestyle, and the LIFT plan built around it.">
+  <title>LIFT — Inside the Day</title>
+  <link rel="preload" href="/Public/LandingPage/assets/editorial-house.png" as="image">
+  <link rel="preload" href="/Public/LandingPage/assets/editorial-athlete.png" as="image">
+  <link rel="stylesheet" href="/Public/LandingPage/editorial-journey.css">
+  <link rel="stylesheet" href="/Public/LandingPage/editorial-extras.css">
+  <link rel="stylesheet" href="/Public/public-shell.css">
+  <script src="/Shared/JS/theme.js"></script>
+  <script src="/Public/public-navbar.js" defer></script>
+  <script src="/Public/public-footer.js" defer></script>
+  <script src="/Public/LandingPage/editorial-journey.js" defer></script>
+  <noscript><style>.journey{height:100svh}.accessible-story{display:grid;gap:1rem;padding:2rem 6vw 4rem}.accessible-story article{padding:1.5rem;background:#f3f4dc;border-radius:18px}.accessible-story p{line-height:1.6}.accessible-story a{color:#304d36}</style></noscript>
+</head>
+<body>
+  <a class="skip-link" href="#story">Skip to story</a>
+  <lift-navbar></lift-navbar>
+
+  <main id="story">
+    <section class="journey" id="top" aria-label="Journey inside a real day">
+      <span class="story-anchor" id="inside" aria-hidden="true"></span>
+      <div class="stage">
+        <div class="house" role="img" aria-label="An airy living room with an open doorway leading into a kitchen"></div>
+        <div class="room-depth" aria-hidden="true"></div>
+        <div class="scene-wash" aria-hidden="true"></div>
+
+        <div class="hero-word" aria-hidden="true"><span>YOUR LIFE.</span><span>YOUR PACE.</span><span>YOUR PLAN.</span></div>
+
+        <!-- Persistent Hero Athlete that travels throughout the journey -->
+        <div class="hero-character-wrap" aria-hidden="true">
+          <img class="athlete hero-character base-hero" src="/Public/LandingPage/assets/editorial-athlete.png" alt="Athletic woman standing in the living room" fetchpriority="high">
+          <img class="athlete-pose pose-workout" src="/Public/LandingPage/assets/editorial-workout.png" alt="Performing controlled workout" loading="lazy">
+          <img class="athlete-pose pose-food" src="/Public/LandingPage/assets/editorial-food.png" alt="Preparing nutritious meal" loading="lazy">
+        </div>
+
+        <div class="hero-left"><p class="eyebrow">LIFESTYLE & INTELLIGENT FITNESS</p><h1>A plan built<br>around <em>you.</em></h1><p>Training and nutrition that make room for the life you actually live.</p><a href="#inside" class="hero-link">Explore the journey <span aria-hidden="true">↗</span></a></div>
+        <div class="hero-right" aria-label="LIFT pillars"><div><span class="icon" aria-hidden="true">↗</span><span>Move<br><small>with purpose</small></span></div><div><span class="icon" aria-hidden="true">✳</span><span>Fuel<br><small>your day</small></span></div><div><span class="icon" aria-hidden="true">◎</span><span>Grow<br><small>at your pace</small></span></div></div>
+        <div class="scroll-hint">SCROLL TO STEP INSIDE <span aria-hidden="true">↓</span></div>
+
+        <!-- Scene 03: Input -> Inside the Phone -> Output inside Phone -->
+        <div class="plan-story" aria-label="Input to AI generation to output plan">
+          <div class="plan-stream input-stream">
+            <div class="stream-badge"><span class="pulse-dot"></span> HER CONTEXT & INPUT</div>
+            <h2 class="stream-title">HER REALITY<br><em>ENTERS THE PHONE.</em></h2>
+            <p class="stream-desc">Goals, sudden schedule cuts, and food routines stream straight into her device.</p>
+
+            <div class="stream-cards-list">
+              <div class="flow-card flow-card-1">
+                <div class="flow-icon">🎯</div>
+                <div>
+                  <small>PRIMARY GOAL</small>
+                  <strong>Build Functional Strength</strong>
+                </div>
+                <span class="flow-check">✓</span>
+              </div>
+              <div class="flow-card flow-card-2 highlight-shift">
+                <div class="flow-icon">⏱️</div>
+                <div>
+                  <small>TODAY'S TIME WINDOW</small>
+                  <strong><s>45 Min</s> <span class="time-urgent">25 Minutes Only</span></strong>
+                </div>
+                <span class="flow-tag">Recalibrating</span>
+              </div>
+              <div class="flow-card flow-card-3">
+                <div class="flow-icon">🥗</div>
+                <div>
+                  <small>DINNER PREFERENCE</small>
+                  <strong>Quick Pantry Meal & High Protein</strong>
+                </div>
+                <span class="flow-check">✓</span>
+              </div>
+            </div>
+
+            <!-- Arrow showing flow INTO the phone -->
+            <div class="flow-arrow-indicator" aria-hidden="true">
+              <span>Streaming directly into the screen</span>
+              <div class="arrow-pills"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+
+          <!-- Compact Apple Device with Streamed Inputs and Synthesized Plan Inside -->
+          <div class="plan-device" aria-label="Compact LIFT Phone Interface">
+            <div class="device-hardware">
+              <div class="device-notch"><span class="notch-cam"></span></div>
+              <div class="device-screen">
+                <div class="screen-header">
+                  <div class="screen-logo">LIFT<span>.</span>AI</div>
+                  <div class="screen-status-pill">
+                    <span class="ai-sparkle">✨</span>
+                    <span class="ai-status-text">AI Generating</span>
+                  </div>
+                </div>
+
+                <!-- Stage A Inside Phone: Inputs Entering & AI Processing -->
+                <div class="ai-compute-stage">
+                  <div class="screen-receiving-badge">RECEIVING YOUR CONTEXT</div>
+                  <div class="phone-incoming-chips">
+                    <div class="incoming-chip chip-1">🎯 Strength Goal Ingested</div>
+                    <div class="incoming-chip chip-2">⏱️ 25-Min Compression Applied</div>
+                    <div class="incoming-chip chip-3">🥗 15-Min Dinner Constraint</div>
+                  </div>
+
+                  <div class="ai-neural-mesh">
+                    <span class="mesh-orbit orbit-1"></span>
+                    <span class="mesh-orbit orbit-2"></span>
+                    <div class="ai-core-indicator">
+                      <span class="core-dot"></span>
+                      <small>SYNTHESIZING</small>
+                    </div>
+                  </div>
+
+                  <div class="ai-generation-bars">
+                    <div class="gen-bar"><span class="gen-progress"></span></div>
+                    <div class="gen-step-label">Generating workout & meal output...</div>
+                  </div>
+                </div>
+
+                <!-- Stage B Inside Phone: Final Generated Plan Result -->
+                <div class="screen-plan-card">
+                  <div class="screen-plan-head">
+                    <span class="plan-badge">AI PLAN READY</span>
+                    <span class="plan-time">TODAY • 25 MIN</span>
+                  </div>
+
+                  <div class="plan-item-preview">
+                    <div class="item-tag move-tag">MOVE</div>
+                    <div>
+                      <strong>Full-Body Strength</strong>
+                      <small>3 Circuits • Mirror Coach Daniel</small>
+                    </div>
+                  </div>
+
+                  <div class="plan-item-preview">
+                    <div class="item-tag fuel-tag">FUEL</div>
+                    <div>
+                      <strong>Warm Chicken & Bean Bowl</strong>
+                      <small>15 Min • Cook with Dina</small>
+                    </div>
+                  </div>
+
+                  <div class="screen-action-row">
+                    <span>Ready to launch session</span>
+                    <span class="sync-check">Start Workout ↗</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scene 04: Coach video with a focused story beside it -->
+        <div class="beat beat-coach" aria-label="Live 1-on-1 coaching session">
+          <div class="beat-copy coach-copy">
+            <span class="beat-copy-kicker"><span class="beat-copy-rule"></span> 03 / TRAINING SUPPORT</span>
+            <h2>See the move.<br><em>Then make it yours.</em></h2>
+            <p>Her coach demonstrates the exercise first. She watches the form, then follows it in her own space—with guidance that fits the time she has.</p>
+            <div class="beat-copy-steps" aria-label="Coaching sequence"><span>Watch the form</span><span>Try the movement</span><span>Keep going</span></div>
+          </div>
+          <div class="live-meeting-container mac-window-app">
+            <!-- macOS Window Controls Header -->
+            <div class="mac-window-titlebar">
+              <div class="mac-traffic-dots">
+                <span class="dot dot-close"></span>
+                <span class="dot dot-min"></span>
+                <span class="dot dot-expand"></span>
+              </div>
+              <div class="mac-window-title">
+                <span class="app-icon">📹</span>
+                <span>LIFT Connect — Live Form Guidance</span>
+              </div>
+              <div class="live-status-badge">
+                <span class="rec-red"></span> COACH SESSION
+              </div>
+            </div>
+
+            <!-- Video Deck: Coach Demonstrating Movement -->
+            <div class="meeting-video-deck">
+              <div class="coach-stream-feed">
+                <video class="coach-live-video" src="/Public/LandingPage/assets/coach-workout.mp4" autoplay loop muted playsinline poster="assets/specialist-coach-daniel.png"></video>
+
+                <!-- Coach Mini Avatar Badge in Stream -->
+                <div class="coach-stream-id-chip">
+                  <img src="/Public/LandingPage/assets/specialist-coach-daniel.png" alt="Coach Daniel">
+                  <div>
+                    <strong>Coach Daniel Vance</strong>
+                    <small>Exercise demonstration</small>
+                  </div>
+                </div>
+
+                <!-- Live Subtitles / Real-time Speech Waveform -->
+                <div class="live-caption-bar">
+                  <div class="speech-waveform" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                  <div class="speech-text">
+                    <span class="speaker-name">Coach Daniel:</span>
+                    <span class="caption-words">“Keep the core braced and drive through the mid-foot. Perfect depth!”</span>
+                  </div>
+                </div>
+
+                <!-- Biomechanical AI Motion-Tracking Overlay -->
+                <div class="ai-vision-hud" aria-hidden="true">
+                  <div class="tracking-joint knee-joint">
+                    <span class="joint-pulse"></span>
+                    <span class="joint-tag">90° ANGLE TARGET</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Meeting In-Call Controls Bar -->
+              <div class="meeting-toolbar">
+                <button type="button" class="tool-btn active-tool"><span>🎙️ Mute</span></button>
+                <button type="button" class="tool-btn active-tool"><span>📹 Video</span></button>
+                <button type="button" class="tool-btn"><span>📊 AI Reps</span></button>
+                <div class="meeting-time-chip">08:42</div>
+                <button type="button" class="tool-btn end-call-btn"><span>Leave</span></button>
+              </div>
+            </div>
+
+            <!-- Meeting Context Footer -->
+            <div class="meeting-context-footer">
+              <div class="coach-profile-mini">
+                <span class="status-indicator-green"></span>
+                <div>
+                  <strong>Daniel Vance • Strength Coach</strong>
+                  <small>Watch, learn, then move</small>
+                </div>
+              </div>
+              <div class="rep-counter-pill">
+                <span>CIRCUIT 1/3</span>
+                <strong>REP 8 / 12</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scene 05: Nutrition video with a focused story beside it -->
+        <div class="beat beat-nutrition" aria-label="Nutritionist video and preparation guide">
+          <div class="beat-copy nutrition-copy">
+            <span class="beat-copy-kicker"><span class="beat-copy-rule"></span> 04 / NUTRITION SUPPORT</span>
+            <h2>Food that works<br><em>in real life.</em></h2>
+            <p>A short cooking guide helps turn her meal plan into dinner. Her nutritionist keeps the choice practical for her routine and the time she has.</p>
+            <div class="beat-copy-steps" aria-label="Nutrition sequence"><span>See the recipe</span><span>Make the meal</span><span>Stay on track</span></div>
+          </div>
+          <div class="kitchen-media-container mac-window-app">
+            <!-- macOS Window Controls Header -->
+            <div class="mac-window-titlebar">
+              <div class="mac-traffic-dots">
+                <span class="dot dot-close"></span>
+                <span class="dot dot-min"></span>
+                <span class="dot dot-expand"></span>
+              </div>
+              <div class="mac-window-title">
+                <span class="app-icon">🥘</span>
+                <span>LIFT Kitchen — 15-Min Dinner Prep Masterclass</span>
+              </div>
+              <div class="video-quality-tag">RECIPE GUIDE</div>
+            </div>
+
+            <!-- Video Player Stage with Realistic Video Controls -->
+            <div class="recipe-video-card">
+              <div class="video-screen-frame masterclass-cinema">
+                <div class="cinema-video-wrapper">
+                  <video class="food-live-video" src="/Public/LandingPage/assets/healthy-lifestyle.mp4" autoplay loop muted playsinline poster="assets/editorial-food.png"></video>
+                  <div class="cinema-steam-layer" aria-hidden="true"></div>
+
+                  <div class="video-cinema-head">
+                    <div class="recipe-title-group">
+                      <span class="recipe-badge">SIMPLE DINNER IDEA</span>
+                      <h3>Warm Citrus Chicken & Black Bean Bowl</h3>
+                    </div>
+                  </div>
+
+
+                  <!-- Professional Video Scrub Timeline Bar -->
+                  <div class="video-timeline-controls">
+                    <div class="timeline-scrubber">
+                      <div class="scrub-track">
+                        <div class="scrub-progress" style="width: 58%;"></div>
+                        <div class="scrub-head" style="left: 58%;"></div>
+                      </div>
+                    </div>
+                    <div class="timeline-bar-actions">
+                      <div class="time-readout">02:48 / 04:20</div>
+                      <div class="macro-summary-pill">
+                        <strong>38g Protein</strong> • <span>510 kcal</span>
+                      </div>
+                      <div class="player-icons">
+                        <span>🔊</span>
+                        <span>⚙️ 1080p</span>
+                        <span>⛶</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Nutritionist Dina Direct Commentary -->
+              <div class="nutritionist-dialog-card master-dialog">
+                <div class="dina-stream-container">
+                  <img src="/Public/LandingPage/assets/specialist-nutrition-dina.png" alt="Dina - Registered Dietitian" class="dina-avatar-video">
+                  <span class="audio-talk-indicator"></span>
+                </div>
+                <div class="dialog-text">
+                  <div class="dina-name-row">
+                    <strong>Dina Al-Hassan, MSc, RD</strong>
+                    <span class="verified-badge">Clinical Sports Dietitian</span>
+                  </div>
+                  <p>Practical food guidance, shaped around her schedule.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="beat beat-finale"><p class="eyebrow">THE LIFE BEHIND THE PROGRESS</p><h2>ONE LIFE.<br>SUPPORT THAT<br><em>MOVES WITH IT.</em></h2><p>AI for the starting plan. A coach for training. A nutritionist for food. She stays at the center.</p><a href="/Account/Register">START YOUR JOURNEY <span aria-hidden="true">↗</span></a><small>Illustrative Premium journey. Specialist support depends on your plan.</small></div>
+        <div class="progress" aria-hidden="true"><span></span></div>
+        <span class="scene-count" aria-hidden="true">01 / 06</span>
+      </div>
+    </section>
+    <section class="accessible-story" id="story-static" aria-label="The LIFT journey without motion">
+      <article><span>01 / A REAL DAY</span><h2>Her time changes.</h2><p>She planned 45 minutes. Today she has 25.</p></article>
+      <article><span>02 / HER CONTEXT</span><h2>She tells LIFT.</h2><p>Her strength goal, available time, and food routine go into one place.</p></article>
+      <article><span>03 / HER PLAN</span><h2>LIFT responds.</h2><p>A 25-minute full-body strength session and a simple dinner idea form the starting plan.</p><a href="/Client/AiAssistant">Explore LIFT planning ↗</a></article>
+      <article><span>04 / THE COACH</span><h2>Guidance for movement.</h2><p>Her coach reviews training and gives feedback she can use.</p></article>
+      <article><span>05 / THE NUTRITIONIST</span><h2>Food that fits.</h2><p>Her nutritionist helps adapt the food plan to her routine.</p></article>
+    </section>
+    <section class="journey-followup plan-section" id="plans" aria-labelledby="plans-title">
+      <div class="followup-wrap">
+        <p class="followup-kicker">FIND YOUR FIT / 01</p>
+        <div class="followup-heading"><h2 id="plans-title">One starting point.<br><em>Four ways to grow.</em></h2><p>Start with the support you need today. Your training and nutrition experience can grow with you.</p></div>
+        <div class="plan-grid">
+          <article><span>01 / FREE</span><h3>Build your foundation.</h3><p>Track workouts and meals, follow your activity, and use general guidance to build a routine.</p><ul><li>Activity and progress tracking</li><li>General workout and food guidance</li></ul><a href="/Account/Register">Start free <span aria-hidden="true">↗</span></a></article>
+          <article><span>02 / AI + COACH</span><h3>Move with guidance.</h3><p>Get AI planning shaped around your routine and a coach to support your training.</p><ul><li>Personalized AI guidance</li><li>Coach for training</li></ul><a href="/Public/HowItWorks?plan=coach">Explore AI + Coach <span aria-hidden="true">↗</span></a></article>
+          <article><span>03 / AI + NUTRITIONIST</span><h3>Make food work for you.</h3><p>Get AI planning and a nutritionist to help make your food plan practical.</p><ul><li>Personalized AI guidance</li><li>Nutritionist for food</li></ul><a href="/Public/HowItWorks?plan=nutrition">Explore AI + Nutritionist <span aria-hidden="true">↗</span></a></article>
+          <article><span>04 / PREMIUM</span><h3>Bring both together.</h3><p>Get AI planning plus a coach for training and a nutritionist for food.</p><ul><li>Coach and nutritionist support</li><li>Separate conversations for each area</li></ul><a href="/Public/HowItWorks?plan=premium">Explore Premium <span aria-hidden="true">↗</span></a></article>
+        </div>
+      </div>
+    </section>
+    <section class="journey-followup feedback-section" id="feedback" aria-labelledby="feedback-title">
+      <div class="followup-wrap">
+        <p class="followup-kicker">COMMUNITY STORIES / 02</p>
+        <div class="followup-heading"><h2 id="feedback-title">Stories behind<br><em>the progress.</em></h2><p>Explore how different kinds of support can fit into everyday life.</p></div>
+        <p class="feedback-disclaimer">Illustrative preview stories. Names, photos and results are examples until approved client feedback is available.</p>
+        <div class="feedback-grid">
+          <details><summary><img src="/Public/LandingPage/assets/real-life-progress.jpg" alt="Illustrative portrait" loading="lazy"><span class="feedback-meta">JORDAN LEE · AI + COACH</span><strong>“I finally found a training rhythm that fits my week.”</strong><span class="feedback-open">Read the story ↗</span></summary><div class="feedback-detail"><p>The short sessions helped me stay consistent around work. My coach's exercise guidance made each workout easier to follow.</p><small>Illustrative example · 4 workouts each week over an 8-week routine</small></div></details>
+          <details><summary><img src="/Public/LandingPage/assets/real-life-nutrition.jpg" alt="Illustrative portrait" loading="lazy"><span class="feedback-meta">MAYA BROOKS · AI + NUTRITIONIST</span><strong>“Food planning became something I could actually keep up.”</strong><span class="feedback-open">Read the story ↗</span></summary><div class="feedback-detail"><p>The meal preparation videos gave me practical ideas for busy evenings. I could ask my nutritionist about ingredients that fit my routine.</p><small>Illustrative example · Meal planning on 5 days each week</small></div></details>
+          <details><summary><img src="/Public/LandingPage/assets/real-life-time.jpg" alt="Illustrative portrait" loading="lazy"><span class="feedback-meta">ALEX MORGAN · PREMIUM</span><strong>“Seeing my progress together kept me moving forward.”</strong><span class="feedback-open">Read the story ↗</span></summary><div class="feedback-detail"><p>Having training and nutrition support in one place helped me keep a steady routine and see how small changes added up.</p><small>Illustrative example · 3 months of consistent check-ins</small></div></details>
+        </div>
+      </div>
+    </section>
+    <section class="journey-followup next-section" aria-label="Explore LIFT further"><div class="followup-wrap next-grid"><article><span>GET TO KNOW US</span><h2>Made for real life.</h2><p>Learn what guides LIFT and find answers to common questions.</p><a href="/Public/About">About LIFT <span aria-hidden="true">↗</span></a></article><article><span>WE'RE HERE TO HELP</span><h2>Let’s talk.</h2><p>Questions about your plan or the support available? Reach the LIFT team.</p><a href="/Public/Contact">Contact us <span aria-hidden="true">↗</span></a></article></div></section>
+  </main>
+  <lift-footer></lift-footer>
+</body>
+</html>
+

@@ -1,0 +1,37 @@
+@model ClientSubscriptionVm
+@{ ViewData["Title"] = "Subscription"; }
+<h1>Subscription</h1><p>Current plan: <strong>@Model.CurrentPlan</strong></p>
+<section class="panel"><h2>Available plans</h2>
+@foreach (var plan in Model.Plans) { <article><h3>@plan.Name</h3><p>@plan.MonthlyPrice.ToString("0.00") USD for one month</p>
+@if (plan.MonthlyPrice > 0 && plan.Code is "premium" or "ai_coach" or "ai_nutritionist") {
+<form asp-action="StartCheckout" method="post">@Html.AntiForgeryToken()
+<input type="hidden" name="PlanId" value="@plan.Id" />
+@if (plan.Code is "premium" or "ai_coach") {
+<label>Coach <select name="CoachId" required><option value="">Choose a coach</option>
+@foreach (var specialist in Model.Available.Where(x => x.Role == "coach")) { <option value="@specialist.Id">@specialist.Name</option> }
+</select></label> }
+@if (plan.Code is "premium" or "ai_nutritionist") {
+<label>Nutritionist <select name="NutritionistId" required><option value="">Choose a nutritionist</option>
+@foreach (var specialist in Model.Available.Where(x => x.Role == "nutritionist")) { <option value="@specialist.Id">@specialist.Name</option> }
+</select></label> }
+<label>Promo code (optional) <input name="PromoCode" type="text" maxlength="50" autocomplete="off" /></label>
+<button type="submit" disabled="@(!Model.CheckoutConfigured)">Continue to PayPal</button>
+</form> }
+</article> }
+@if (!Model.CheckoutConfigured) { <p>PayPal Sandbox is ready in the backend. Add your Sandbox Client ID and Secret to enable checkout.</p> }
+<p>Payment covers one month. Renewal is manual for now; no automatic charge is created.</p></section>
+<section class="panel"><h2>Assigned specialists</h2>
+@if (Model.Assigned.Count == 0) { <p>No specialist is currently assigned.</p> }
+@foreach (var item in Model.Assigned) { <article><h3>@item.Name</h3><p>@item.Role · @item.Specialty</p>
+<form asp-action="RequestSpecialistChange" method="post">@Html.AntiForgeryToken()
+<input type="hidden" name="AssignmentId" value="@item.AssignmentId" />
+<label>Why would you like to change? <textarea name="Reason" required minlength="10" maxlength="1000"></textarea></label>
+<button type="submit">Request a change</button></form></article> }
+</section>
+<section class="panel"><h2>Available specialists</h2>
+@if (Model.Available.Count == 0) { <p>None available right now.</p> }
+@foreach (var item in Model.Available) { <article><h3>@item.Name</h3><p>@item.Role · @item.Specialty · @item.ExperienceYears years · @item.AvailableSlots slots</p><p>@item.Bio</p></article> }
+</section>
+<section class="panel"><h2>Recent change requests</h2>
+@foreach (var request in Model.ChangeRequests) { <p>@request.RequestedAt.ToLocalTime().ToString("yyyy-MM-dd") · @request.Status · @request.Reason</p> }
+</section>

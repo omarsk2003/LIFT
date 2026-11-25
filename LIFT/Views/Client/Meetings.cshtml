@@ -1,0 +1,12 @@
+@model List<ClientMeetingVm>
+@{ ViewData["Title"] = "Meetings"; }
+<h1>Meetings</h1>
+@if (Model.Count == 0) { <p>No meetings proposed yet.</p> }
+@foreach (var meeting in Model) { <article><h2>@meeting.Topic</h2>
+<p>@meeting.SpecialistName · @meeting.Role · @meeting.StartsAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm") · @meeting.DurationMinutes min · @meeting.Status</p>
+@if (meeting.Status == "accepted" && !string.IsNullOrWhiteSpace(meeting.MeetingUrl)) { <p><a href="@meeting.MeetingUrl" rel="noopener noreferrer" target="_blank">Open meeting link</a></p> }
+@if (meeting.Status == "pending" && meeting.StartsAt > DateTimeOffset.UtcNow) {
+<form asp-action="DecideMeeting" method="post">@Html.AntiForgeryToken()<input type="hidden" name="MeetingId" value="@meeting.Id" />
+<button name="Decision" value="accept" type="submit">Accept</button><button name="Decision" value="decline" type="submit">Decline</button></form> }
+@if (meeting.Status == "accepted" && meeting.StartsAt > DateTimeOffset.UtcNow) { <form asp-action="DecideMeeting" method="post">@Html.AntiForgeryToken()<input type="hidden" name="MeetingId" value="@meeting.Id" /><button name="Decision" value="cancel" type="submit">Cancel</button></form> }
+</article> }

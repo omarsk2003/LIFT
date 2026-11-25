@@ -1,0 +1,64 @@
+@model LIFT.Models.AdminReviewVm
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Specialist review | LIFT Admin</title>
+    <link rel="stylesheet" href="~/Shared/Components/Admin/Sidebar/sidebar.css" />
+    <link rel="stylesheet" href="~/Admin/Dashboard/dashboard.css" />
+    
+    <link rel="stylesheet" href="~/Shared/CSS/admin-mvc.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-polish.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-stms.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-cycle.css" />
+    <script src="~/Shared/JS/theme.js"></script>
+    <script src="~/Shared/Components/Admin/Sidebar/sidebar.js" defer></script>
+    <script src="~/Shared/JS/admin-shell.js" defer></script>
+</head>
+<body>
+<div class="admin-shell"><partial name="_AdminTopbar" />
+<lift-admin-sidebar></lift-admin-sidebar><main class="admin-page">
+<header class="dashboard-heading"><div><p class="eyebrow">APPLICATION REVIEW</p><h1>@Model.Name</h1><p>@Model.Role · @Model.Email · @Model.Status</p></div></header>
+<section class="active-section"><h2>Professional profile</h2>
+<dl><dt>Specialty</dt><dd>@Model.Specialty</dd><dt>Experience</dt><dd>@Model.ExperienceYears years</dd><dt>Client capacity</dt><dd>@Model.Capacity</dd><dt>Bio</dt><dd>@Model.Bio</dd></dl>
+</section>
+<section class="active-section"><h2>Uploaded certificates</h2>
+@if (Model.Certificates.Count == 0) { <p>No certificates uploaded. Approval is unavailable.</p> }
+else { <ul>@foreach (var certificate in Model.Certificates) {
+    <li><a asp-controller="Admin" asp-action="Certificate" asp-route-id="@certificate.Id" target="_blank" rel="noopener">@certificate.OriginalFileName</a> <small>@certificate.UploadedAt.ToLocalTime().ToString("yyyy-MM-dd")</small></li>
+}</ul> }
+</section>
+@if (Model.Status == "pending") {
+<section class="active-section"><h2>Decision</h2><p>Open and review the uploaded PDF files before deciding.</p>
+<form asp-controller="Admin" asp-action="ReviewSpecialist" method="post">
+    @Html.AntiForgeryToken()<input type="hidden" name="SpecialistId" value="@Model.Id" />
+    <button name="Decision" value="approve" type="submit" disabled="@(Model.Certificates.Count == 0)">Approve and activate</button>
+    <button name="Decision" value="reject" type="submit">Reject</button>
+</form></section> }
+<p><a asp-controller="Admin" asp-action="Index" asp-fragment="specialists">Back to applications</a></p>
+</main></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

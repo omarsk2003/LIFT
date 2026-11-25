@@ -1,0 +1,21 @@
+@model CoachGuidancePageVm
+@{ ViewData["Title"] = "Exercise coaching"; }
+<h1>Exercise coaching</h1>
+<p>Notes for currently assigned clients.</p>
+<form asp-action="AddGuidance" method="post" class="panel">
+    @Html.AntiForgeryToken()
+    <label>Client <select name="ClientId" required><option value="">Choose client</option>
+    @foreach (var client in Model.Clients) { <option value="@client.ClientId">@client.Name</option> }
+    </select></label>
+    <label>Topic <input name="Topic" required maxlength="80" /></label>
+    <label>Title <input name="Title" required maxlength="160" /></label>
+    <label>Guidance <textarea name="Body" required maxlength="2000"></textarea></label>
+    <button type="submit">Save guidance</button>
+</form>
+@if (Model.Notes.Count == 0) { <p>No guidance notes yet.</p> }
+@foreach (var note in Model.Notes) {
+<article><small>@note.ClientName · @note.Topic · @note.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd")</small>
+<h2>@note.Title</h2><p>@note.Body</p>
+<form asp-action="DeleteGuidance" asp-route-id="@note.Id" method="post">@Html.AntiForgeryToken()<button type="submit">Remove</button></form></article>
+}
+

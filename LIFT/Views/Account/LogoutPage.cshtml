@@ -1,0 +1,7 @@
+@{ Layout = null; }
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Signing out</title></head><body>
+<p>Signing out…</p><script>
+  localStorage.removeItem('lift-preview-member-v1');
+  sessionStorage.removeItem('lift-preview-member-v1');
+  location.replace('/Account/Login');
+</script></body></html>

@@ -1,0 +1,17 @@
+@model NutritionMessagesVm
+@{ ViewData["Title"] = "Messages"; }
+<h1>Messages</h1>
+<form asp-action="OpenAdminThread" method="post">@Html.AntiForgeryToken()<button type="submit">Message admin support</button></form>
+<div class="panel"><h2>Conversations</h2>
+@if (Model.Threads.Count == 0) { <p>No conversations yet. Open a client from My clients to start one.</p> }
+@foreach (var thread in Model.Threads) {
+<p><a asp-action="Messages" asp-route-id="@thread.Id">@thread.OtherName</a> · @thread.Kind · @thread.Status</p>
+}</div>
+@if (Model.Selected is not null) {
+<section class="panel"><h2>@Model.Selected.OtherName</h2>
+@foreach (var message in Model.Messages) { <article><strong>@message.SenderName</strong><small> @message.SentAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</small><p>@message.Body</p></article> }
+@if (Model.Selected.Status == "open") {
+<form asp-action="SendMessage" method="post">@Html.AntiForgeryToken()<input type="hidden" name="ConversationId" value="@Model.Selected.Id" />
+<label>Reply <textarea name="Body" required maxlength="4000"></textarea></label><button type="submit">Send</button></form>
+}</section>
+}

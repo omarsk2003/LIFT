@@ -1,0 +1,6 @@
+@model ClientNotificationsVm
+@{ ViewData["Title"] = "Notifications"; }
+<h1>Notifications</h1>
+@if (Model.Items.Count == 0) { <p>No notifications yet.</p> }
+@foreach (var item in Model.Items) { <article><h2>@item.Title</h2><p>@item.Body</p><small>@item.CreatedAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm") · @(item.ReadAt is null ? "Unread" : "Read")</small>
+@if (item.ReadAt is null) { <form asp-action="MarkNotificationRead" asp-route-id="@item.Id" method="post">@Html.AntiForgeryToken()<button type="submit">Mark read</button></form> }</article> }

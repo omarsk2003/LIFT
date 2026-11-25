@@ -1,0 +1,6 @@
+@model ClientPlansVm
+@{ ViewData["Title"] = "Workout"; }
+<h1>Workout plan</h1><p>@Model.PlanName</p>
+@if (Model.WorkoutVersion is null) { <p>No published workout plan is available for your current subscription.</p> }
+else { <p>@Model.WorkoutTitle · Version @Model.WorkoutVersion</p>
+@foreach (var item in Model.WorkoutItems) { <article><h2>Day @item.Day · @item.Name</h2><p>@item.Sets sets · @item.Reps reps · @item.DurationMinutes min</p><p>@item.Instructions</p></article> } }

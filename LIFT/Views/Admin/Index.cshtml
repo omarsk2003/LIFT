@@ -1,0 +1,104 @@
+@model LIFT.Models.AdminDashboardVm
+@{
+    Layout = null;
+    ViewData["Title"] = "Admin | LIFT";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin dashboard | LIFT</title>
+    <link rel="stylesheet" href="~/Shared/Components/Admin/Sidebar/sidebar.css" />
+    <link rel="stylesheet" href="~/Admin/Dashboard/dashboard.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-mvc.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-polish.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-dashboard.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-stms.css" />
+    <link rel="stylesheet" href="~/Shared/CSS/admin-cycle.css" />
+    <script src="~/Shared/JS/theme.js"></script>
+    <script src="~/Shared/Components/Admin/Sidebar/sidebar.js" defer></script>
+    <script src="~/Shared/JS/admin-shell.js" defer></script>
+</head>
+<body>
+<div class="admin-shell">
+    <partial name="_AdminTopbar" />
+    <lift-admin-sidebar></lift-admin-sidebar>
+    <main class="admin-page" id="main">
+        <header class="dashboard-heading dashboard-lead stms-dashboard-hero"><div><p class="eyebrow">ADMIN WORKSPACE</p><h1>Analytics &amp; Statistics</h1><p>Track account growth, review specialist applications, and manage the LIFT community.</p></div></header>
+        @if (TempData["Success"] is string success) { <p role="status">@success</p> }
+        @if (TempData["Error"] is string error) { <p role="alert">@error</p> }
+        <div class="stms-section-heading"><h2>Organization snapshot</h2><span>Current totals</span></div>
+        <section class="overview-grid" aria-label="Platform statistics">
+            <a class="overview-card metric-primary" asp-action="Clients"><span class="stms-metric-icon" aria-hidden="true">♙</span><strong>@Model.ActiveClients</strong><span>Active clients</span><i aria-hidden="true">↗</i></a>
+            <a class="overview-card" asp-action="Specialists"><span class="stms-metric-icon" aria-hidden="true">✦</span><strong>@Model.ActiveCoaches</strong><span>Active coaches</span><i aria-hidden="true">↗</i></a>
+            <a class="overview-card" asp-action="Specialists"><span class="stms-metric-icon" aria-hidden="true">✚</span><strong>@Model.ActiveNutritionists</strong><span>Active nutritionists</span><i aria-hidden="true">↗</i></a>
+            <a class="overview-card" asp-controller="Admin" asp-action="Subscriptions"><span class="stms-metric-icon" aria-hidden="true">▣</span><strong>@Model.ActiveSubscriptions</strong><span>Active subscriptions</span><i aria-hidden="true">↗</i></a>
+        </section>
+
+        @{
+            var growth = Model.MonthlyGrowth;
+            var maxUsers = Math.Max(1, growth.Max(month => month.TotalUsers));
+            var chartPoints = string.Join(" ", growth.Select((month, index) =>
+                $"{(35 + index * 650.0 / 11).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)},{(180 - month.TotalUsers * 140.0 / maxUsers).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)}"));
+            var latestMonth = growth[^1];
+            var previousMonth = growth[^2];
+            var activePeople = Model.ActiveClients + Model.ActiveCoaches + Model.ActiveNutritionists;
+            var maxPeople = Math.Max(1, activePeople);
+        }
+        <section class="dashboard-insights" aria-label="Platform trends">
+            <article class="insight-panel growth-panel" aria-labelledby="growth-title" data-growth-chart>
+                <div class="insight-heading"><div><h2 id="growth-title">Client registrations</h2><p>New client accounts by month (UTC)</p></div></div>
+                <div class="stms-chart-period" role="group" aria-label="Activity period"><button type="button" data-growth-period="3" aria-pressed="false">3 months</button><button type="button" data-growth-period="6" aria-pressed="true">6 months</button><button type="button" data-growth-period="12" aria-pressed="false">12 months</button></div>
+                <div class="stms-bar-chart" role="img" aria-label="Client registrations by month">@foreach (var month in growth) { <div class="stms-bar-month" data-growth-month title="@(new DateTime(month.Year, month.Month, 1).ToString("MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture)): @month.NewUsers new clients"><div class="stms-bar-track"><span style="height:@(Math.Max(3, month.NewUsers * 100 / Math.Max(1, growth.Max(item => item.NewUsers))))%"></span></div><small>@(new DateTime(month.Year, month.Month, 1).ToString("MMM", System.Globalization.CultureInfo.InvariantCulture))</small></div> }</div>
+                <p class="stms-chart-summary"><strong>+@latestMonth.NewUsers</strong> new clients this month <span>· @latestMonth.TotalUsers total clients</span></p>
+                <details class="chart-data"><summary>View monthly data</summary><div class="chart-table-scroll"><table><caption>Client registrations by month</caption><thead><tr><th scope="col">Month</th><th scope="col">New clients</th><th scope="col">Total clients</th></tr></thead><tbody>@foreach (var month in growth) { <tr><th scope="row">@(new DateTime(month.Year, month.Month, 1).ToString("MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture))</th><td>@month.NewUsers</td><td>@month.TotalUsers</td></tr> }</tbody></table></div></details>
+            </article>
+            <div class="insights-side">
+                <article class="insight-panel mix-panel" aria-labelledby="mix-title"><h2 id="mix-title">Community status</h2><p>Active accounts across LIFT.</p><div class="stms-donut" style="--stms-fill:@(activePeople == 0 ? 0 : 100 * Model.ActiveClients / activePeople)%"><span><strong>@activePeople</strong><small>Total</small></span></div>
+                    <div class="mix-row"><div><span>Clients</span><strong>@Model.ActiveClients</strong></div><meter min="0" max="@maxPeople" value="@Model.ActiveClients">@Model.ActiveClients</meter></div>
+                    <div class="mix-row"><div><span>Coaches</span><strong>@Model.ActiveCoaches</strong></div><meter min="0" max="@maxPeople" value="@Model.ActiveCoaches">@Model.ActiveCoaches</meter></div>
+                    <div class="mix-row"><div><span>Nutritionists</span><strong>@Model.ActiveNutritionists</strong></div><meter min="0" max="@maxPeople" value="@Model.ActiveNutritionists">@Model.ActiveNutritionists</meter></div>
+                </article>
+                <article class="insight-panel attention-panel" aria-labelledby="attention-title"><p class="eyebrow">NEEDS ATTENTION</p><h2 id="attention-title">Your review queue</h2>
+                    <div class="queue-line"><span><strong>@Model.PendingSpecialists</strong> specialist applications</span><a asp-action="Specialists">Review <span aria-hidden="true">↗</span></a></div>
+                    <div class="queue-line"><span><strong>@Model.PendingChanges</strong> change requests</span><a asp-controller="Admin" asp-action="AdminChanges">Open <span aria-hidden="true">↗</span></a></div>
+                </article>
+            </div>
+        </section>
+
+        <section class="active-section" id="subscriptions" aria-labelledby="subscriptions-title">
+            <div class="section-heading"><div><p class="eyebrow">SUBSCRIPTIONS</p><h2 id="subscriptions-title">Latest subscriptions</h2></div></div>
+            <div class="admin-revenue-panel"><div class="admin-revenue-heading"><div><h3>Revenue</h3><p>Successful USD payments by day</p></div><label>Month<select id="revenue-month" aria-label="Revenue month">@foreach (var month in Model.MonthlyRevenue.Reverse()) { <option value="@month.Year-@month.Month" selected="@(month == Model.MonthlyRevenue.Last())">@(new DateTime(month.Year, month.Month, 1).ToString("MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture))</option> }</select></label></div>
+            @foreach (var month in Model.MonthlyRevenue) { var maximum = Math.Max(1m, month.Daily.Max()); <div class="admin-revenue-month" data-revenue-month="@month.Year-@month.Month" hidden="@(month != Model.MonthlyRevenue.Last())"><strong>@month.Total.ToString("0.00") USD</strong><div class="admin-revenue-chart" role="img" aria-label="Daily revenue for @(new DateTime(month.Year, month.Month, 1).ToString("MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture))">@for (var day = 0; day < month.Daily.Count; day++) { <div class="admin-revenue-day" title="Day @(day + 1): @month.Daily[day].ToString("0.00") USD"><span style="height:@Math.Max(2m, month.Daily[day] * 100m / maximum)%"></span><small>@(day + 1)</small></div> }</div></div> }</div>
+            <div class="admin-table-wrap"><table class="admin-data-table"><thead><tr><th scope="col">Client</th><th scope="col">Plan</th><th scope="col">Started</th><th scope="col">Status</th><th scope="col">Price</th></tr></thead><tbody>
+                @foreach (var subscription in Model.Subscriptions)
+                {
+                    <tr><td data-label="Client"><strong>@subscription.ClientName</strong></td><td data-label="Plan">@subscription.PlanName</td><td data-label="Started">@subscription.StartsAt.ToLocalTime().ToString("yyyy-MM-dd")</td><td data-label="Status"><span class="admin-status">@subscription.Status</span></td><td data-label="Price"><strong>@subscription.PriceAtStart.ToString("0.00") @subscription.Currency</strong></td></tr>
+                }
+            </tbody></table></div>
+            @if (Model.Subscriptions.Count == 0) { <p>No subscriptions match this search.</p> }
+            <nav class="admin-pager" aria-label="Subscription pages">
+                <span>Page @Model.SubscriptionPage of @Model.SubscriptionPages</span>
+                @if (Model.SubscriptionPage > 1) { <a asp-action="Index" asp-fragment="subscriptions" asp-route-search="@Model.Search" asp-route-specialistPage="@Model.SpecialistPage" asp-route-clientPage="@Model.ClientPage" asp-route-subscriptionPage="@(Model.SubscriptionPage - 1)">Previous</a> }
+                @if (Model.SubscriptionPage < Model.SubscriptionPages) { <a asp-action="Index" asp-fragment="subscriptions" asp-route-search="@Model.Search" asp-route-specialistPage="@Model.SpecialistPage" asp-route-clientPage="@Model.ClientPage" asp-route-subscriptionPage="@(Model.SubscriptionPage + 1)">Next</a> }
+            </nav>
+        </section>
+    </main>
+</div>
+<script>
+document.querySelector('.admin-menu-toggle')?.addEventListener('click', function () {
+    const sidebar = document.querySelector('lift-admin-sidebar');
+    const open = this.getAttribute('aria-expanded') !== 'true';
+    this.setAttribute('aria-expanded', String(open));
+    sidebar?.classList.toggle('open', open);
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
